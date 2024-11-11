@@ -1,6 +1,4 @@
-Here's a stunning README.md for your portfolio website:
 
-```markdown
 <div align="center">
   <img src="/public/logo.svg" alt="Portfolio Logo" width="120" height="120" style="border-radius: 50%">
 
@@ -154,4 +152,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
   
   Made with ❤️ by Shalom Obongo
 </div>
-```
+

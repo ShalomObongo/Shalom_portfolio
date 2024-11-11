@@ -1,133 +1,182 @@
-
 <div align="center">
   <img src="/public/logo.svg" alt="Portfolio Logo" width="120" height="120" style="border-radius: 50%">
 
-  # Shalom Obongo | Portfolio
+  # Shalom Obongo | Portfolio & Blog
   
-  🚀 A Next-Generation Developer Portfolio showcasing the intersection of design and technology
+  🚀 A modern, full-stack portfolio and blog platform built with Node.js and MongoDB
   
   [![Live Demo](https://img.shields.io/badge/Live-Demo-64ffda?style=for-the-badge)](https://shalomobongo.tech)
   [![License](https://img.shields.io/badge/License-MIT-0a192f?style=for-the-badge)](LICENSE)
 </div>
 
-## ✨ Features
+## 🌟 Features
 
-- 🎨 Stunning minimalist design with custom cursor
-- 🌓 Dynamic theme switching (Dark/Light modes)
-- 📱 Fully responsive across all devices
-- 🔄 Smooth page transitions and animations
-- 🖼️ Interactive project previews with hover effects
-- 🚀 Optimized performance with lazy loading
-- 🤖 SEO optimized with Schema.org markup
-- 📊 Progressive Web App (PWA) support
+### Portfolio
+- 🎨 Custom cursor and smooth animations
+- 🌓 Dark/Light theme switching
+- 📱 Responsive design across all devices
+- 🔄 Intersection Observer animations
+- 🖼️ Interactive project cards
+- 🚀 Optimized performance
+- 🤖 SEO optimized
+
+### Blog System
+- 📝 Rich text editor (TinyMCE)
+- 🏷️ Tag-based filtering
+- 🔍 Full-text search
+- 📊 Analytics dashboard
+- 🔐 Secure admin panel
+- 📈 View tracking
+- 🖼️ Image upload support
 
 ## 🛠️ Tech Stack
 
-- HTML5 & CSS3 with modern features
-- Vanilla JavaScript with advanced animations
-- Custom cursor tracking system
-- Intersection Observer for scroll animations
-- Schema.org JSON-LD for rich snippets
-- Mobile-first responsive design
-- Progressive Web App capabilities
+### Frontend
+- HTML5 & CSS3
+- Vanilla JavaScript
+- TinyMCE Editor
+- Chart.js
+- Font Awesome
 
-## 🎯 Key Components
-
-### Dynamic Navigation
-```javascript:index.js
-startLine: 153
-endLine: 170
-```
-
-### Project Showcase
-The portfolio features an innovative project display system with live previews and smooth hover effects:
-```css:main.css
-startLine: 260
-endLine: 320
-```
-
-### Performance Optimization
-- Lazy loading images and iframes
-- Preloading critical assets
-- Optimized font loading
-- Minified assets
-
-## 📱 Progressive Web App
-
-The website is built as a PWA, offering:
-- Offline functionality
-- App-like experience
-- Home screen installation
-- Fast loading times
-
-```javascript:site.webmanifest
-startLine: 1
-endLine: 24
-```
-
-## 🎨 Design Philosophy
-
-The design follows a minimalist yet futuristic approach with:
-- Custom animated cursor
-- Smooth scrolling effects
-- Parallax animations
-- Glass-morphism elements
-- Dynamic color themes
-
-## 🚀 Performance Metrics
-
-- Lighthouse Score: 98/100
-- First Contentful Paint: < 1s
-- Time to Interactive: < 2s
-- Perfect SEO score
-- Full accessibility compliance
+### Backend
+- Node.js
+- Express.js
+- MongoDB
+- JWT Authentication
+- Multer for uploads
 
 ## 📦 Installation
 
-1. Clone the repository
-```bash
-git clone https://github.com/YourUsername/portfolio.git
-```
+### Prerequisites
+- Node.js (v14 or higher)
+- MongoDB
+- Git
 
-2. Navigate to project directory
+### Step 1: Clone the Repository
 ```bash
+git clone https://github.com/ShalomObongo/portfolio.git
 cd portfolio
 ```
 
-3. Open `index.html` in your browser or use a local server
+### Step 2: Install Dependencies
 ```bash
-python -m http.server 8000
+npm install
 ```
 
-## 🔧 Development
-
-The project uses a modular structure:
-- `index.html` - Core structure
-- `main.css` - Styling and animations
-- `index.js` - Interactions and functionality
-
-## 🌐 SEO Optimization
-
-Implements comprehensive SEO best practices:
-```html:index.html
-startLine: 14
-endLine: 42
+### Step 3: Environment Setup
+1. Copy the example environment file:
+```bash
+cp .env.example .env
 ```
 
-## 📱 Mobile Responsiveness
-
-Features a custom mobile navigation system:
-```css:main.css
-startLine: 792
-endLine: 871
+2. Update the .env file with your credentials:
+```env
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_secure_jwt_secret
+ADMIN_EMAIL=your_admin_email
+ADMIN_PASSWORD=your_secure_password
 ```
+
+### Step 4: Database Setup
+1. Create a MongoDB database
+2. Update the MONGODB_URI in .env
+3. The required collections will be created automatically
+
+### Step 5: Start the Server
+```bash
+npm start
+```
+
+The application will be available at `http://localhost:3000`
+
+## 📁 Project Structure
+
+```
+portfolio/
+├── admin/                 # Admin panel files
+│   ├── admin.js          # Admin functionality
+│   ├── admin.css         # Admin styles
+│   └── index.html        # Admin dashboard
+├── api/                  # API routes
+│   ├── admin.js          # Admin endpoints
+│   └── posts.js          # Blog post endpoints
+├── blog/                 # Blog system files
+│   ├── blog.js          # Blog functionality
+│   ├── blog.css         # Blog styles
+│   ├── index.html       # Blog listing page
+│   └── post.html        # Blog post template
+├── models/              # MongoDB models
+│   ├── Admin.js         # Admin user model
+│   ├── Post.js          # Blog post model
+│   └── Analytics.js     # Analytics model
+├── public/              # Static assets
+│   └── uploads/         # Uploaded images
+├── .env                 # Environment variables
+├── .gitignore          # Git ignore rules
+├── server.js           # Express server
+└── package.json        # Project dependencies
+```
+
+## 🔧 Configuration
+
+### TinyMCE Editor
+1. Get your API key from [TinyMCE](https://www.tiny.cloud/)
+2. Update the script source in admin/index.html:
+```html
+<script src="https://cdn.tiny.cloud/1/YOUR_API_KEY/tinymce/6/tinymce.min.js"></script>
+```
+
+### MongoDB
+1. Create a free cluster at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
+2. Get your connection string
+3. Update MONGODB_URI in .env
+
+## 🔒 Security Features
+
+- JWT-based authentication
+- Password hashing
+- XSS protection
+- CSRF protection
+- Secure cookie usage
+- File upload validation
+- Rate limiting
+
+## 📱 Mobile Optimization
+
+The site is fully responsive with:
+- Mobile-first design
+- Touch-friendly navigation
+- Optimized images
+- Adaptive layouts
+- Performance optimization
+
+## 🚀 Deployment
+
+### Option 1: Traditional Hosting
+1. Set up a Node.js environment
+2. Clone the repository
+3. Install dependencies
+4. Set up environment variables
+5. Start with PM2 or similar
+
+### Option 2: Docker
+Coming soon...
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
+2. Create your feature branch
+```bash
+git checkout -b feature/AmazingFeature
+```
+3. Commit your changes
+```bash
+git commit -m 'Add some AmazingFeature'
+```
+4. Push to the branch
+```bash
+git push origin feature/AmazingFeature
+```
 5. Open a Pull Request
 
 ## 📄 License
@@ -136,10 +185,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- Font Awesome for icons
-- Google Fonts for typography
-- Intersection Observer API
-- Modern CSS features
+- [TinyMCE](https://www.tiny.cloud/) for the rich text editor
+- [Chart.js](https://www.chartjs.org/) for analytics visualization
+- [Font Awesome](https://fontawesome.com/) for icons
+- [MongoDB](https://www.mongodb.com/) for database
+- [Express.js](https://expressjs.com/) for server framework
 
 ---
 

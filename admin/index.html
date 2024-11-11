@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Admin Dashboard | Shalom Obongo">
+    <title>Admin Panel | Shalom Obongo</title>
+    <link rel="stylesheet" href="../main.css">
+    <link rel="stylesheet" href="admin.css">
+    <script src="https://cdn.tiny.cloud/1/jm7kzfvf5sngzge5wnyhwrjst36in6ktaixigujobruqucn8/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="admin-panel">
+    <!-- Login Form -->
+    <div class="admin-login" id="loginForm">
+        <div class="login-container">
+            <img src="/public/logo.svg" alt="SO" class="login-logo">
+            <h2>Welcome Back</h2>
+            <p class="login-subtitle">Sign in to manage your blog</p>
+            <form id="adminLoginForm">
+                <div class="form-group">
+                    <div class="input-icon">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" placeholder="Email" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" placeholder="Password" required>
+                    </div>
+                </div>
+                <button type="submit" class="login-btn">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="admin-dashboard hidden" id="dashboard">
+        <nav class="admin-nav">
+            <div class="admin-header">
+                <div class="admin-brand">
+                    <img src="/public/logo.svg" alt="SO" class="dashboard-logo">
+                    <h2>Dashboard</h2>
+                </div>
+                <button id="logoutBtn" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+            <ul class="admin-menu">
+                <li data-section="posts" class="active">
+                    <i class="fas fa-newspaper"></i> Posts
+                </li>
+                <li data-section="new-post">
+                    <i class="fas fa-plus-circle"></i> New Post
+                </li>
+                <li data-section="analytics">
+                    <i class="fas fa-chart-line"></i> Analytics
+                </li>
+            </ul>
+        </nav>
+
+        <main class="admin-content">
+            <!-- Posts Section -->
+            <section id="posts" class="admin-section">
+                <div class="section-header">
+                    <h3><i class="fas fa-newspaper"></i> Manage Posts</h3>
+                    <button onclick="document.querySelector('[data-section=new-post]').click()" class="new-post-btn">
+                        <i class="fas fa-plus"></i> New Post
+                    </button>
+                </div>
+                <div class="posts-table-wrapper">
+                    <div class="posts-table">
+                        <!-- Posts will be dynamically populated -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- New Post Section -->
+            <section id="new-post" class="admin-section hidden">
+                <div class="section-header">
+                    <h3><i class="fas fa-plus-circle"></i> Create New Post</h3>
+                </div>
+                <form id="newPostForm" class="post-form">
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label for="title">Title</label>
+                            <input type="text" name="title" id="title" placeholder="Enter post title" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="slug">URL Slug</label>
+                            <input type="text" name="slug" id="slug" placeholder="post-url-slug">
+                            <small>Leave empty to generate from title</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tags">Tags</label>
+                            <input type="text" name="tags" id="tags" placeholder="tech, web, development" required>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="excerpt">Excerpt</label>
+                            <textarea name="excerpt" id="excerpt" placeholder="Brief description of the post" required></textarea>
+                        </div>
+
+                        <div class="form-group image-upload-group">
+                            <label for="postImage">Featured Image</label>
+                            <div class="image-upload-area">
+                                <input type="file" id="postImage" name="image" accept="image/*" required>
+                                <div class="upload-placeholder">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p>Drag & drop or click to upload</p>
+                                </div>
+                                <div class="image-preview"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="content">Content</label>
+                            <textarea id="content" name="content"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="cancel-btn" onclick="document.querySelector('[data-section=posts]').click()">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-paper-plane"></i> Publish Post
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Analytics Section -->
+            <section id="analytics" class="admin-section hidden">
+                <div class="section-header">
+                    <h3><i class="fas fa-chart-line"></i> Analytics</h3>
+                </div>
+                
+                <div class="analytics-grid">
+                    <div class="analytics-card">
+                        <div class="analytics-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <div class="analytics-info">
+                            <h4>Total Views</h4>
+                            <p id="totalViews">0</p>
+                        </div>
+                    </div>
+                    <div class="analytics-card">
+                        <div class="analytics-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="analytics-info">
+                            <h4>Total Posts</h4>
+                            <p id="totalPosts">0</p>
+                        </div>
+                    </div>
+                    <div class="analytics-card">
+                        <div class="analytics-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="analytics-info">
+                            <h4>Unique Visitors</h4>
+                            <p id="uniqueVisitors">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="analytics-charts">
+                    <div class="chart-container">
+                        <h4>Views Over Time</h4>
+                        <canvas id="viewsChart"></canvas>
+                    </div>
+                    
+                    <div class="top-posts">
+                        <h4>Top Posts</h4>
+                        <div id="topPosts"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html> 

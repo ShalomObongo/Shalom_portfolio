@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | Shalom Obongo</title>
+    <meta name="description" content="Technical blog posts about Web Development, AI, and Technology">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="/blog/blog.css">
+    <!-- Add Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="cursor"></div>
+    <div class="progress-bar"></div>
+    
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">
+            <a href="/"><img src="/public/logo.svg" alt="SO"></a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/blog" class="active">Blog</a></li>
+        </ul>
+    </nav>
+
+    <!-- Blog Header -->
+    <section class="blog-header">
+        <h1>Technical Blog</h1>
+        <p>Insights on Web Development, AI, and Technology</p>
+    </section>
+
+    <!-- Blog Content -->
+    <section class="blog-grid">
+        <div class="blog-filters">
+            <input type="text" id="searchPosts" placeholder="Search posts...">
+            <div class="tag-filters">
+                <!-- Tags will be dynamically populated -->
+            </div>
+        </div>
+        
+        <div class="posts-grid">
+            <!-- Posts will be dynamically populated -->
+        </div>
+
+        <div class="pagination">
+            <!-- Pagination will be dynamically populated -->
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="https://github.com/ShalomObongo" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/shalom-obongo" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="mailto:contact@shalomobongo.tech">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+            <p>&copy; 2024 Shalom Obongo. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav">
+        <button class="mobile-nav-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="mobile-nav-menu">
+            <a href="/" style="--i:1">Home</a>
+            <a href="/blog" class="active" style="--i:2">Blog</a>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/index.js"></script>
+    <script src="/blog/blog.js"></script>
+</body>
+</html> 

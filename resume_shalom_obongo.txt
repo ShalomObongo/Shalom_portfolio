@@ -1,0 +1,88 @@
+Shalom Obongo
+Nairobi, Kenya
+Email: shalomobongo@yahoo.com | LinkedIn: https://www.linkedin.com/in/shalom-obongo
+GitHub: https://github.com/ShalomObongo | Phone: +254 797 083 441
+
+About Me
+I am a driven technology professional passionate about leveraging innovative solutions to solve real-world challenges. With extensive hands-on experience in software and mobile app development, I have honed my skills across multiple tech stacks and frameworks. As a Full Stack Developer at Erudite Digital, a startup I co-founded, I've led development of scalable applications while fostering team collaboration. My role as a Technology Consultant at Calm&Zest has further enhanced my ability to translate complex technical concepts into practical business solutions.
+
+Education
+Bachelor's Degree in Computer Science
+Strathmore University, Nairobi
+Expected Graduation Year: 2025
+
+High School Diploma
+Light Academy (Grade: A-)
+Graduation Year: 2020
+
+Experience
+Full Stack Developer
+Erudite Digital Africa (2024 - Present)
+Location: Nairobi, Kenya | Industry: Software Development & Fintech
+
+- Developed software solutions and provided technology consulting for local businesses in a startup environment
+- Collaborated with a team to deliver web and mobile applications using Next.js, Node.js, and other modern technologies
+- Assisted in managing project lifecycles from client requirements to final delivery
+- Supported software development projects focusing on financial technologies and strategic IT consulting
+
+Key Achievements:
+- Contributed to delivering multiple software projects for local clients
+- Assisted in building and managing client relationships while ensuring timely project delivery
+- Helped establish efficient development processes and technical standards
+
+Technology Consultant
+Calm&Zest Enterprises (2022 - Present)
+Location: Nairobi, Kenya | Industry: E-commerce & Digital Marketing
+
+- Assisted in the technological transformation of a bottled water business, focusing on operational efficiency and customer experience enhancement
+- Supported technology implementation to improve operational efficiency
+- Contributed to the development of automated systems including POS integration
+- Assisted in business development strategies leveraging technology
+
+Key Achievements:
+- Contributed to tech solutions that increased operational efficiency
+- Assisted in implementing customer feedback systems for service improvement
+
+Projects
+Erudite Digital Africa Website
+Developed a comprehensive fintech startup website featuring a blog, form submission system, and pricing details.
+Technologies: HTML, CSS, JavaScript
+Role: Lead Developer
+Link: https://eruditedigital.com
+
+Calm&Zest Enterprises
+Developed an e-commerce website for a bottled water business, featuring advanced notification and payment systems to enhance customer experience and streamline transactions.
+Technologies: React, Node.js, Mpesa API, Whatsapp API, Firebase
+Link: https://calmandzest.co.ke
+
+Student-Sphere
+Created an all-in-one mobile application using React Native, allowing students to access study materials, ask questions, chat with tutors and peers, create task lists, and more.
+Technologies: React Native, Firebase
+Link: https://github.com/ShalomObongo/Student-Sphere
+
+Student-Zone
+Built a cutting-edge educational web app offering a suite of AI-powered tools to support students' learning, including PDF summaries, question generators, chatbots, and more.
+Technologies: Next.js, Node.js, TensorFlow.js, Gemini API, Groq API
+Link: https://studentszone.vercel.app
+
+Skills
+Technical Skills: Next.js, Node.js, React Native, Python, Web Development, Mobile App Development, AI Integration, System Integration, API, UI/UX Design
+Soft Skills: Project Management, Team Leadership, Business Development, Client Relations
+
+Achievements
+- Successfully delivered multiple software projects for local clients at Erudite Digital Africa
+- Introduced tech solutions that significantly increased operational efficiency at Calm&Zest Enterprises
+- Founded and led Erudite Digital Africa while pursuing a Computer Science degree
+
+Certifications
+- CCNA - Networks (Cisco, 2023)
+- Python 3 Certification (Codecademy, 2022)
+
+Languages
+English - Native
+Swahili - Native
+Chinese - [Proficiency level not specified]
+
+
+Interests
+Full-Stack Development, Software Architecture, Fintech Solutions, Artificial Intelligence, Cloud Technologies

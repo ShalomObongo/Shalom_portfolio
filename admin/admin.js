@@ -7,7 +7,7 @@ class AdminPanel {
     async init() {
         this.setupEventListeners();
         this.checkAuth();
-        this.initTinyMCE();
+        await this.loadTinyMCE();
     }
 
     setupEventListeners() {
@@ -325,6 +325,22 @@ class AdminPanel {
                 }
             }
         });
+    }
+
+    async loadTinyMCE() {
+        try {
+            const response = await fetch('/api/config/editor');
+            const config = await response.json();
+            
+            const script = document.getElementById('tinymce-script');
+            script.src = `https://cdn.tiny.cloud/1/${config.tinymceKey}/tinymce/6/tinymce.min.js`;
+            script.referrerPolicy = "origin";
+            
+            // Initialize TinyMCE after script loads
+            script.onload = () => this.initTinyMCE();
+        } catch (error) {
+            console.error('Failed to load TinyMCE:', error);
+        }
     }
 }
 

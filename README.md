@@ -75,6 +75,7 @@ MONGODB_URI=your_mongodb_connection_string
 JWT_SECRET=your_secure_jwt_secret
 ADMIN_EMAIL=your_admin_email
 ADMIN_PASSWORD=your_secure_password
+TINYMCE_API_KEY=your_tiny_mce_api_key
 ```
 
 ### Step 4: Database Setup

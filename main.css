@@ -329,6 +329,9 @@ h2 {
 }
 
 .project-content {
+    position: relative;
+    z-index: 2;
+    pointer-events: auto;
     padding: 1.5rem;
     flex-grow: 1;
     display: flex;
@@ -365,6 +368,9 @@ h2 {
 }
 
 .project-links a {
+    position: relative;
+    z-index: 3;
+    pointer-events: auto;
     color: var(--heading);
     text-decoration: none;
     padding: 0.5rem 1rem;

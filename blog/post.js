@@ -110,9 +110,75 @@ class BlogPost {
             return;
         }
 
-        // Update page title
-        document.title = `${post.title} | Shalom Obongo`;
+        // Update page title with keywords
+        document.title = `${post.title} - Blog | Shalom Obongo`;
         
+        // Update meta tags
+        const metaTags = {
+            'description': post.metaDescription,
+            'keywords': post.keywords.join(', '),
+            'author': post.author,
+            'og:title': post.title,
+            'og:description': post.metaDescription,
+            'og:image': post.image,
+            'og:url': `https://shalomobongo.tech/blog/${post.slug}`,
+            'og:type': 'article',
+            'article:published_time': post.date,
+            'article:modified_time': post.lastModified,
+            'article:author': post.author,
+            'article:tag': post.tags.join(','),
+            'twitter:card': 'summary_large_image',
+            'twitter:title': post.title,
+            'twitter:description': post.metaDescription,
+            'twitter:image': post.image
+        };
+
+        // Update schema.org JSON-LD
+        const schemaData = {
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "headline": post.title,
+            "image": post.image,
+            "datePublished": post.date,
+            "dateModified": post.lastModified,
+            "author": {
+                "@type": "Person",
+                "name": post.author
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "Shalom Obongo",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://shalomobongo.tech/public/logo.svg"
+                }
+            },
+            "description": post.metaDescription,
+            "keywords": post.keywords.join(', '),
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": `https://shalomobongo.tech/blog/${post.slug}`
+            }
+        };
+
+        // Update JSON-LD script
+        let scriptTag = document.querySelector('script[type="application/ld+json"]');
+        if (!scriptTag) {
+            scriptTag = document.createElement('script');
+            scriptTag.type = 'application/ld+json';
+            document.head.appendChild(scriptTag);
+        }
+        scriptTag.textContent = JSON.stringify(schemaData);
+
+        // Update canonical URL
+        let canonicalTag = document.querySelector('link[rel="canonical"]');
+        if (!canonicalTag) {
+            canonicalTag = document.createElement('link');
+            canonicalTag.rel = 'canonical';
+            document.head.appendChild(canonicalTag);
+        }
+        canonicalTag.href = post.canonicalUrl;
+
         // Update post header
         document.getElementById('postTitle').textContent = post.title;
         document.getElementById('postDate').textContent = new Date(post.date).toLocaleDateString('en-US', {

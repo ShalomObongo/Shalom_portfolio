@@ -195,4 +195,32 @@ router.get('/admin/analytics', authMiddleware, async (req, res) => {
     }
 });
 
+// Add new route for sitemap generation
+router.get('/sitemap.xml', async (req, res) => {
+    try {
+        const posts = await Post.find().select('slug lastModified');
+        const baseUrl = 'https://shalomobongo.tech';
+        
+        let sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n';
+        sitemap += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+        
+        // Add blog posts
+        posts.forEach(post => {
+            sitemap += `  <url>\n`;
+            sitemap += `    <loc>${baseUrl}/blog/${post.slug}</loc>\n`;
+            sitemap += `    <lastmod>${post.lastModified.toISOString()}</lastmod>\n`;
+            sitemap += `    <changefreq>monthly</changefreq>\n`;
+            sitemap += `    <priority>0.8</priority>\n`;
+            sitemap += `  </url>\n`;
+        });
+        
+        sitemap += '</urlset>';
+        
+        res.header('Content-Type', 'application/xml');
+        res.send(sitemap);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 module.exports = router; 

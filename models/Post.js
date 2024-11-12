@@ -39,6 +39,23 @@ const postSchema = new mongoose.Schema({
     author: {
         type: String,
         default: 'Shalom Obongo'
+    },
+    metaDescription: {
+        type: String,
+        required: true,
+        maxlength: 160 // Google's recommended length
+    },
+    keywords: [{
+        type: String,
+        trim: true
+    }],
+    lastModified: {
+        type: Date,
+        default: Date.now
+    },
+    canonicalUrl: {
+        type: String,
+        required: true
     }
 });
 

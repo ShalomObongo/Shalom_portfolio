@@ -67,6 +67,9 @@ const postSchema = new mongoose.Schema({
 
 // Pre-save middleware to clean the slug
 postSchema.pre('save', function(next) {
+    if (this.isModified()) {
+        this.lastModified = new Date();
+    }
     if (this.isModified('slug')) {
         this.slug = this.slug
             .trim()

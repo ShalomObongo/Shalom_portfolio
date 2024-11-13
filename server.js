@@ -53,8 +53,14 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+// Add this middleware before your sitemap routes
+const sitemapCache = (req, res, next) => {
+    res.set('Cache-Control', 'public, max-age=3600'); // Cache for 1 hour
+    next();
+};
+
 // Sitemap routes
-app.get('/sitemap.xml', async (req, res) => {
+app.get('/sitemap.xml', sitemapCache, async (req, res) => {
     try {
         const baseUrl = 'https://shalomobongo.tech';
         
@@ -84,7 +90,7 @@ app.get('/sitemap.xml', async (req, res) => {
 });
 
 // Main sitemap for static pages
-app.get('/main-sitemap.xml', (req, res) => {
+app.get('/main-sitemap.xml', sitemapCache, (req, res) => {
     const baseUrl = 'https://shalomobongo.tech';
     const pages = [
         { url: '/', priority: '1.0', changefreq: 'monthly' },
@@ -110,24 +116,41 @@ app.get('/main-sitemap.xml', (req, res) => {
 });
 
 // Blog posts sitemap
-app.get('/blog-sitemap.xml', async (req, res) => {
+app.get('/blog-sitemap.xml', sitemapCache, async (req, res) => {
     try {
         const Post = require('./models/Post');
         const baseUrl = 'https://shalomobongo.tech';
         
         const posts = await Post.find()
-            .select('slug lastModified')
+            .select('slug lastModified date')
             .sort({ date: -1 });
         
         let sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n';
         sitemap += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
         
         posts.forEach(post => {
+            const postAge = (new Date() - new Date(post.date)) / (1000 * 60 * 60 * 24); // age in days
+            
+            // Determine change frequency based on post age
+            let changefreq;
+            if (postAge < 7) {
+                changefreq = 'daily';
+            } else if (postAge < 30) {
+                changefreq = 'weekly';
+            } else if (postAge < 180) {
+                changefreq = 'monthly';
+            } else {
+                changefreq = 'yearly';
+            }
+
+            // Determine priority based on post age
+            const priority = Math.max(0.5, 1 - (postAge / 365)).toFixed(1); // Newer posts get higher priority
+
             sitemap += '  <url>\n';
             sitemap += `    <loc>${baseUrl}/blog/${post.slug}</loc>\n`;
             sitemap += `    <lastmod>${post.lastModified.toISOString()}</lastmod>\n`;
-            sitemap += '    <changefreq>weekly</changefreq>\n';
-            sitemap += '    <priority>0.7</priority>\n';
+            sitemap += `    <changefreq>${changefreq}</changefreq>\n`;
+            sitemap += `    <priority>${priority}</priority>\n`;
             sitemap += '  </url>\n';
         });
         
@@ -165,6 +188,19 @@ app.use((req, res, next) => {
 });
 
 const PORT = process.env.PORT || 3000;
+const NODE_ENV = process.env.NODE_ENV || 'development';
+
+// Add security headers
+app.use((req, res, next) => {
+    res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    next();
+});
+
+// Trust proxy for Render
+app.set('trust proxy', 1);
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

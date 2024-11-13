@@ -156,15 +156,21 @@ class BlogSystem {
         this.renderPosts(filtered);
     }
 
+    getResponsiveImageUrl(url, width) {
+        return url.replace('/upload/', `/upload/w_${width},c_scale/`);
+    }
+
     renderPosts(posts = this.posts) {
         const grid = document.querySelector('.posts-grid');
-        const start = (this.currentPage - 1) * this.postsPerPage;
-        const paginatedPosts = posts.slice(start, start + this.postsPerPage);
-
-        grid.innerHTML = paginatedPosts.map(post => `
+        grid.innerHTML = posts.map(post => `
             <article class="blog-post">
                 <div class="post-image">
-                    <img src="${post.image}" alt="${post.title}">
+                    <img src="${this.getResponsiveImageUrl(post.image, 400)}" 
+                         srcset="${this.getResponsiveImageUrl(post.image, 400)} 400w,
+                                 ${this.getResponsiveImageUrl(post.image, 800)} 800w"
+                         sizes="(max-width: 400px) 400px, 800px"
+                         alt="${post.title}"
+                         loading="lazy">
                 </div>
                 <div class="post-content">
                     <div class="post-meta">

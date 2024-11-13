@@ -80,7 +80,9 @@
             </header>
             
             <div class="post-featured-image">
-                <img id="postImage" alt="">
+                <img id="postImage" alt="" 
+                     onerror="this.src='https://res.cloudinary.com/your-cloud-name/image/upload/v1/blog-posts/default'"
+                     loading="lazy">
             </div>
             
             <div class="post-body" id="postContent"></div>

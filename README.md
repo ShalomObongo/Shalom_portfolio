@@ -16,18 +16,21 @@
 - 🌓 Dark/Light theme switching
 - 📱 Responsive design across all devices
 - 🔄 Intersection Observer animations
-- 🖼️ Interactive project cards
-- 🚀 Optimized performance
-- 🤖 SEO optimized
+- 🖼️ Interactive project cards with live previews
+- 🚀 Performance optimized with lazy loading
+- 🤖 SEO optimized with Schema.org markup
+- 📱 Progressive Web App (PWA) support
 
 ### Blog System
 - 📝 Rich text editor (TinyMCE)
-- 🏷️ Tag-based filtering
-- 🔍 Full-text search
+- 🏷️ Tag-based filtering and search
+- 🔍 Full-text search functionality
 - 📊 Analytics dashboard
 - 🔐 Secure admin panel
 - 📈 View tracking
-- 🖼️ Image upload support
+- 🖼️ Cloudinary image integration
+- 🗺️ Dynamic sitemap generation
+- 📊 SEO-optimized blog posts
 
 ## 🛠️ Tech Stack
 
@@ -37,13 +40,15 @@
 - TinyMCE Editor
 - Chart.js
 - Font Awesome
+- Progressive Web App features
 
 ### Backend
 - Node.js
 - Express.js
 - MongoDB
 - JWT Authentication
-- Multer for uploads
+- Multer & Cloudinary
+- SEO Optimization
 
 ## 📦 Installation
 
@@ -51,6 +56,7 @@
 - Node.js (v14 or higher)
 - MongoDB
 - Git
+- Cloudinary account
 
 ### Step 1: Clone the Repository
 ```bash
@@ -76,12 +82,15 @@ JWT_SECRET=your_secure_jwt_secret
 ADMIN_EMAIL=your_admin_email
 ADMIN_PASSWORD=your_secure_password
 TINYMCE_API_KEY=your_tiny_mce_api_key
+CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 ```
 
-### Step 4: Database Setup
-1. Create a MongoDB database
-2. Update the MONGODB_URI in .env
-3. The required collections will be created automatically
+### Step 4: Initialize Admin Account
+```bash
+npm run init-admin
+```
 
 ### Step 5: Start the Server
 ```bash
@@ -94,28 +103,38 @@ The application will be available at `http://localhost:3000`
 
 ```
 portfolio/
-├── admin/                 # Admin panel files
-│   ├── admin.js          # Admin functionality
-│   ├── admin.css         # Admin styles
-│   └── index.html        # Admin dashboard
-├── api/                  # API routes
-│   ├── admin.js          # Admin endpoints
-│   └── posts.js          # Blog post endpoints
-├── blog/                 # Blog system files
-│   ├── blog.js          # Blog functionality
-│   ├── blog.css         # Blog styles
-│   ├── index.html       # Blog listing page
-│   └── post.html        # Blog post template
-├── models/              # MongoDB models
-│   ├── Admin.js         # Admin user model
-│   ├── Post.js          # Blog post model
-│   └── Analytics.js     # Analytics model
-├── public/              # Static assets
-│   └── uploads/         # Uploaded images
-├── .env                 # Environment variables
-├── .gitignore          # Git ignore rules
-├── server.js           # Express server
-└── package.json        # Project dependencies
+├── admin/ # Admin dashboard
+│ ├── index.html # Admin interface
+│ ├── admin.js # Admin functionality
+│ └── admin.css # Admin styles
+├── api/ # Backend API routes
+│ ├── admin.js # Admin endpoints
+│ ├── posts.js # Blog endpoints
+│ └── auth.js # Authentication
+├── blog/ # Blog system
+│ ├── index.html # Blog listing
+│ ├── post.html # Post template
+│ ├── blog.js # Blog functionality
+│ ├── post.js # Post rendering
+│ └── blog.css # Blog styles
+├── public/ # Static assets
+│ ├── uploads/ # User uploads
+│ ├── ProfilePic.png # Profile image
+│ ├── logo.svg # Site logo
+│ └── icons/ # PWA icons
+├── models/ # MongoDB schemas
+│ ├── Post.js # Blog post model
+│ └── Admin.js # Admin model
+├── config/ # Configuration
+│ └── db.js # Database config
+├── scripts/ # Utility scripts
+│ └── init-admin.js # Admin setup
+├── .env # Environment vars
+├── server.js # Express server
+├── index.html # Main portfolio
+├── main.css # Global styles
+├── index.js # Main JavaScript
+└── site.webmanifest # PWA manifest
 ```
 
 ## 🔧 Configuration
@@ -132,10 +151,15 @@ portfolio/
 2. Get your connection string
 3. Update MONGODB_URI in .env
 
+### Cloudinary
+1. Create an account at [Cloudinary](https://cloudinary.com/)
+2. Get your cloud name, API key, and API secret
+3. Update CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, and CLOUDINARY_API_SECRET in .env
+
 ## 🔒 Security Features
 
 - JWT-based authentication
-- Password hashing
+- Password hashing with bcrypt
 - XSS protection
 - CSRF protection
 - Secure cookie usage
@@ -158,7 +182,7 @@ The site is fully responsive with:
 2. Clone the repository
 3. Install dependencies
 4. Set up environment variables
-5. Start with PM2 or similar
+5. Start with PM2 or similar process manager
 
 ### Option 2: Docker
 Coming soon...
@@ -187,7 +211,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🙏 Acknowledgments
 
 - [TinyMCE](https://www.tiny.cloud/) for the rich text editor
-- [Chart.js](https://www.chartjs.org/) for analytics visualization
+- [Cloudinary](https://cloudinary.com/) for image hosting
 - [Font Awesome](https://fontawesome.com/) for icons
 - [MongoDB](https://www.mongodb.com/) for database
 - [Express.js](https://expressjs.com/) for server framework
@@ -196,11 +220,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div align="center">
   <p>
+    <a href="https://shalomobongo.tech">Website</a> •
     <a href="https://github.com/ShalomObongo">GitHub</a> •
     <a href="https://www.linkedin.com/in/shalom-obongo">LinkedIn</a> •
     <a href="mailto:shalomobongo@yahoo.com">Email</a>
   </p>
   
-  Made with ❤️ by Shalom Obongo
+  Made with 🧠 by Shalom Obongo
 </div>
 

@@ -7,16 +7,8 @@ const multer = require('multer');
 const path = require('path');
 const Post = require('../models/Post');
 const fs = require('fs');
-
-// Configure multer for image uploads
-const storage = multer.diskStorage({
-    destination: './public/uploads/',
-    filename: function(req, file, cb) {
-        cb(null, 'post-' + Date.now() + path.extname(file.originalname));
-    }
-});
-
-const upload = multer({ storage: storage });
+const { upload } = require('../config/cloudinary');
+const { cloudinary } = require('../config/cloudinary');
 
 // Login route
 router.post('/admin/login', async (req, res) => {
@@ -81,7 +73,8 @@ router.post('/admin/posts', authMiddleware, upload.single('image'), async (req, 
             return res.status(400).json({ message: 'Missing required fields' });
         }
 
-        const image = `/uploads/${req.file.filename}`;
+        const image = req.file.path; // Cloudinary URL
+        const baseUrl = 'https://shalomobongo.tech'; // Your domain
 
         const post = new Post({
             title,
@@ -91,12 +84,16 @@ router.post('/admin/posts', authMiddleware, upload.single('image'), async (req, 
             image,
             tags: tags ? tags.split(',').map(tag => tag.trim()).filter(tag => tag) : [],
             readTime: Math.ceil(content.split(' ').length / 200),
-            author: "Shalom Obongo", // Add default author
-            date: new Date()
+            author: "Shalom Obongo",
+            date: new Date(),
+            // Add the required fields
+            metaDescription: excerpt.substring(0, 155) + '...', // Truncate to recommended SEO length
+            canonicalUrl: `${baseUrl}/blog/${cleanSlug}`,
+            keywords: tags ? tags.split(',').map(tag => tag.trim()) : []
         });
 
         const savedPost = await post.save();
-        console.log('Created post:', savedPost); // Add logging
+        console.log('Created post:', savedPost);
         res.json(savedPost);
     } catch (error) {
         console.error('Post creation error:', error);
@@ -118,6 +115,7 @@ router.get('/admin/posts', authMiddleware, async (req, res) => {
 router.put('/admin/posts/:id', authMiddleware, upload.single('image'), async (req, res) => {
     try {
         const update = { ...req.body };
+        const baseUrl = 'https://shalomobongo.tech';
         
         // Clean the slug
         if (update.slug) {
@@ -125,16 +123,31 @@ router.put('/admin/posts/:id', authMiddleware, upload.single('image'), async (re
                 .replace(/[^a-z0-9-]/g, '-')
                 .replace(/-+/g, '-')
                 .replace(/^-+|-+$/g, '');
+                
+            // Update canonical URL when slug changes
+            update.canonicalUrl = `${baseUrl}/blog/${update.slug}`;
         }
 
-        // Handle tags
+        // Handle tags and keywords
         if (update.tags) {
             update.tags = update.tags.split(',').map(tag => tag.trim());
+            update.keywords = update.tags; // Update keywords to match tags
         }
 
-        // Update image only if a new one is uploaded
+        // Update meta description if excerpt changes
+        if (update.excerpt) {
+            update.metaDescription = update.excerpt.substring(0, 155) + '...';
+        }
+
+        // If new image uploaded, update image URL
         if (req.file) {
-            update.image = `/uploads/${req.file.filename}`;
+            // Delete old image if exists
+            const oldPost = await Post.findById(req.params.id);
+            if (oldPost && oldPost.image) {
+                const publicId = oldPost.image.split('/').pop().split('.')[0];
+                await cloudinary.uploader.destroy(`blog-posts/${publicId}`);
+            }
+            update.image = req.file.path;
         }
 
         // Calculate read time if content is updated
@@ -161,24 +174,18 @@ router.put('/admin/posts/:id', authMiddleware, upload.single('image'), async (re
 // Delete post
 router.delete('/admin/posts/:id', authMiddleware, async (req, res) => {
     try {
-        // First, get the post to find its image path
         const post = await Post.findById(req.params.id);
         if (!post) {
             return res.status(404).json({ message: 'Post not found' });
         }
 
-        // Extract the image filename from the post's image path
-        const imagePath = path.join(__dirname, '..', 'public', post.image);
-
-        // Delete the post from the database
-        await Post.findByIdAndDelete(req.params.id);
-
-        // Delete the image file if it exists
-        if (fs.existsSync(imagePath)) {
-            fs.unlinkSync(imagePath);
-            console.log('Deleted image file:', imagePath);
+        // Delete image from Cloudinary
+        if (post.image) {
+            const publicId = post.image.split('/').pop().split('.')[0];
+            await cloudinary.uploader.destroy(`blog-posts/${publicId}`);
         }
 
+        await Post.findByIdAndDelete(req.params.id);
         res.json({ message: 'Post and associated image deleted successfully' });
     } catch (error) {
         console.error('Error deleting post:', error);

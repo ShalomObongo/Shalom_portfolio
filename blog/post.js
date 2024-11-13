@@ -158,6 +158,23 @@ class BlogPost {
             "mainEntityOfPage": {
                 "@type": "WebPage",
                 "@id": `https://shalomobongo.tech/blog/${post.slug}`
+            },
+            "articleSection": post.category,
+            "wordCount": post.content.split(' ').length,
+            "commentCount": post.comments?.length || 0,
+            "inLanguage": "en-US",
+            "potentialAction": {
+                "@type": "ReadAction",
+                "target": [`https://shalomobongo.tech/blog/${post.slug}`]
+            },
+            "author": {
+                "@type": "Person",
+                "name": post.author,
+                "url": "https://shalomobongo.tech",
+                "image": {
+                    "@type": "ImageObject",
+                    "url": "https://shalomobongo.tech/public/ProfilePic.png"
+                }
             }
         };
 

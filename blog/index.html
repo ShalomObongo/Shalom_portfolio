@@ -6,7 +6,7 @@
     <title>Blog | Shalom Obongo</title>
     <meta name="description" content="Technical blog posts about Web Development, AI, and Technology">
     <meta property="og:type" content="website">
-    <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="../main.css">
     <link rel="stylesheet" href="/blog/blog.css">
     <!-- Add Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -24,6 +24,18 @@
             <li><a href="/">Home</a></li>
             <li><a href="/blog" class="active">Blog</a></li>
         </ul>
+        <div class="nav-right">
+            <button class="theme-toggle">
+                <i class="fas fa-moon"></i>
+            </button>
+            <button class="mobile-nav-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="mobile-dropdown">
+                <a href="/">Home</a>
+                <a href="/blog" class="active">Blog</a>
+            </div>
+        </div>
     </nav>
 
     <!-- Blog Header -->
@@ -73,19 +85,8 @@
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <!-- Mobile Navigation -->
-    <div class="mobile-nav">
-        <button class="mobile-nav-toggle">
-            <i class="fas fa-bars"></i>
-        </button>
-        <div class="mobile-nav-menu">
-            <a href="/" style="--i:1">Home</a>
-            <a href="/blog" class="active" style="--i:2">Blog</a>
-        </div>
-    </div>
-
     <!-- Scripts -->
-    <script src="/index.js"></script>
+    <!-- <script src="../index.js"></script> -->
     <script src="/blog/blog.js"></script>
 </body>
 </html> 

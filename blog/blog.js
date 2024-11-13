@@ -1,3 +1,92 @@
+// Custom cursor
+const cursor = document.querySelector('.cursor');
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+if (!isMobile) {
+    document.addEventListener('mousemove', (e) => {
+        requestAnimationFrame(() => {
+            cursor.style.left = `${e.clientX}px`;
+            cursor.style.top = `${e.clientY}px`;
+        });
+    });
+
+    // Cursor effects for interactive elements
+    const interactiveElements = document.querySelectorAll('a, button, .blog-post');
+    
+    interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cursor.classList.add('cursor-expanded');
+        });
+        
+        el.addEventListener('mouseleave', () => {
+            cursor.classList.remove('cursor-expanded');
+        });
+    });
+} else {
+    // Hide cursor on mobile devices
+    cursor.style.display = 'none';
+}
+
+// Theme toggle functionality
+const createThemeToggle = () => {
+    const themeToggle = document.querySelector('.theme-toggle');
+    
+    // Check if there's a saved theme preference
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+        document.body.classList.add('light-theme');
+        themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    }
+    
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('light-theme');
+        const isLight = document.body.classList.contains('light-theme');
+        themeToggle.innerHTML = isLight 
+            ? '<i class="fas fa-sun"></i>' 
+            : '<i class="fas fa-moon"></i>';
+        // Save theme preference
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    });
+};
+
+// Mobile navigation functionality
+const setupMobileNav = () => {
+    const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+    const mobileDropdown = document.querySelector('.mobile-dropdown');
+
+    if (!mobileNavToggle || !mobileDropdown) return;
+
+    mobileNavToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        mobileDropdown.classList.toggle('active');
+        mobileNavToggle.innerHTML = mobileDropdown.classList.contains('active')
+            ? '<i class="fas fa-times"></i>'
+            : '<i class="fas fa-bars"></i>';
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.nav-right') && mobileDropdown.classList.contains('active')) {
+            mobileDropdown.classList.remove('active');
+            mobileNavToggle.innerHTML = '<i class="fas fa-bars"></i>';
+        }
+    });
+
+    // Close dropdown when clicking a link
+    document.querySelectorAll('.mobile-dropdown a').forEach(link => {
+        link.addEventListener('click', () => {
+            mobileDropdown.classList.remove('active');
+            mobileNavToggle.innerHTML = '<i class="fas fa-bars"></i>';
+        });
+    });
+};
+
+// Initialize theme toggle and mobile nav
+document.addEventListener('DOMContentLoaded', () => {
+    createThemeToggle();
+    setupMobileNav();
+});
+
 class BlogSystem {
     constructor() {
         this.posts = [];

@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const path = require('path');
 const Post = require('../models/Post');
+const fs = require('fs');
 
 // Configure multer for image uploads
 const storage = multer.diskStorage({
@@ -160,9 +161,27 @@ router.put('/admin/posts/:id', authMiddleware, upload.single('image'), async (re
 // Delete post
 router.delete('/admin/posts/:id', authMiddleware, async (req, res) => {
     try {
+        // First, get the post to find its image path
+        const post = await Post.findById(req.params.id);
+        if (!post) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
+
+        // Extract the image filename from the post's image path
+        const imagePath = path.join(__dirname, '..', 'public', post.image);
+
+        // Delete the post from the database
         await Post.findByIdAndDelete(req.params.id);
-        res.json({ message: 'Post deleted successfully' });
+
+        // Delete the image file if it exists
+        if (fs.existsSync(imagePath)) {
+            fs.unlinkSync(imagePath);
+            console.log('Deleted image file:', imagePath);
+        }
+
+        res.json({ message: 'Post and associated image deleted successfully' });
     } catch (error) {
+        console.error('Error deleting post:', error);
         res.status(500).json({ message: error.message });
     }
 });

@@ -97,14 +97,16 @@ a, button, .project-card {
 nav {
     position: fixed;
     top: 0;
+    left: 0;
     width: 100%;
-    padding: 1rem 3rem;
+    padding: 1rem 2rem;
+    background: rgba(10, 25, 47, 0.95);
+    backdrop-filter: blur(10px);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(10, 25, 47, 0.95);
-    backdrop-filter: blur(10px);
     z-index: 1000;
+    transition: all 0.3s ease;
 }
 
 .logo {
@@ -794,87 +796,6 @@ footer {
     transition: width 0.1s ease;
 }
 
-/* Add mobile navigation styles */
-.mobile-nav {
-    display: none;
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    z-index: 1000;
-}
-
-.mobile-nav-toggle {
-    background: var(--secondary);
-    color: var(--primary);
-    width: 50px;
-    height: 50px;
-    border: none;
-    border-radius: 50%;
-    font-size: 1.5rem;
-    cursor: none;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.3s ease;
-}
-
-.mobile-nav-toggle.active {
-    transform: rotate(90deg);
-}
-
-.mobile-nav-menu {
-    position: absolute;
-    bottom: 100%;
-    right: 0;
-    background: var(--primary);
-    padding: 1rem;
-    border-radius: 10px;
-    margin-bottom: 1rem;
-    display: none;
-    flex-direction: column;
-    gap: 0.5rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    transform: translateY(20px) scale(0.95);
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    pointer-events: none;
-}
-
-.mobile-nav-menu.active {
-    display: flex;
-    transform: translateY(0) scale(1);
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.mobile-nav-menu a {
-    color: var(--text);
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    transition: all 0.3s ease;
-    transform: translateX(-10px);
-    opacity: 0;
-    transition: all 0.3s ease;
-    transition-delay: calc(var(--i) * 0.1s);
-}
-
-.mobile-nav-menu.active a {
-    transform: translateX(0);
-    opacity: 1;
-}
-
-.mobile-nav-menu a:hover {
-    background: var(--secondary);
-    color: var(--primary);
-}
-
-@media (max-width: 768px) {
-    .mobile-nav {
-        display: block;
-    }
-}
 
 /* Add Back to Top button styles */
 .back-to-top {
@@ -1129,5 +1050,105 @@ footer {
     
     .cursor {
         display: none;
+    }
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+}
+
+.theme-toggle {
+    background: none;
+    border: none;
+    color: var(--heading);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    background: rgba(var(--secondary-rgb), 0.1);
+}
+
+.mobile-nav-toggle,
+.mobile-dropdown {
+    display: none;  /* Hide by default */
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;  /* Hide regular nav links on mobile */
+    }
+    
+    .mobile-nav-toggle {
+        display: flex;  /* Show mobile toggle on mobile */
+        background: none;
+        border: none;
+        color: var(--heading);
+        font-size: 1.2rem;
+        cursor: pointer;
+        padding: 0.5rem;
+        width: 45px;
+        height: 45px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .mobile-nav-toggle:hover {
+        background: rgba(var(--secondary-rgb), 0.1);
+    }
+
+    .mobile-dropdown {
+        display: none;  /* Hidden by default, shown when active */
+        position: absolute;
+        top: calc(100% + 1rem);
+        right: 0;
+        background: var(--primary);
+        border: 1px solid rgba(var(--secondary-rgb), 0.1);
+        border-radius: 8px;
+        padding: 0.5rem;
+        min-width: 200px;
+        box-shadow: 0 10px 30px -10px rgba(2,12,27,0.7);
+        flex-direction: column;
+        gap: 0.5rem;
+        transform: translateY(-10px);
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+
+    .mobile-dropdown.active {
+        display: flex;
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    .mobile-dropdown a {
+        color: var(--heading);
+        text-decoration: none;
+        padding: 0.75rem 1rem;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+
+    .mobile-dropdown a:hover {
+        background: rgba(var(--secondary-rgb), 0.1);
+        color: var(--secondary);
+    }
+
+    .mobile-dropdown a.active {
+        background: rgba(var(--secondary-rgb), 0.1);
+        color: var(--secondary);
     }
 }

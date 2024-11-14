@@ -1,81 +1,119 @@
 <div align="center">
-  <img src="/public/logo.svg" alt="Portfolio Logo" width="120" height="120" style="border-radius: 50%">
+  <img src="/public/logo.svg" alt="Portfolio Logo" width="150" height="150" style="border-radius: 50%; box-shadow: 0 0 20px rgba(100, 255, 218, 0.3);">
 
-  # Shalom Obongo | Portfolio & Blog
+  <h1>✨ Shalom Obongo | Portfolio & Blog ✨</h1>
   
-  🚀 A modern, full-stack portfolio and blog platform built with Node.js and MongoDB
-  
-  [![Live Demo](https://img.shields.io/badge/Live-Demo-64ffda?style=for-the-badge)](https://shalomobongo.tech)
-  [![License](https://img.shields.io/badge/License-MIT-0a192f?style=for-the-badge)](LICENSE)
+  <p align="center">
+    <strong>A modern, full-stack portfolio and blog platform crafted with Node.js and MongoDB</strong>
+  </p>
+
+  <p align="center">
+    <a href="https://shalomobongo.tech" target="_blank">
+      <img src="https://img.shields.io/badge/LIVE-DEMO-64ffda?style=for-the-badge&logoColor=white" alt="Live Demo" />
+    </a>
+    <a href="LICENSE">
+      <img src="https://img.shields.io/badge/LICENSE-MIT-0a192f?style=for-the-badge" alt="License" />
+    </a>
+    <a href="https://nodejs.org">
+      <img src="https://img.shields.io/badge/NODE-18.x-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js" />
+    </a>
+    <a href="https://www.mongodb.com">
+      <img src="https://img.shields.io/badge/MONGODB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB" />
+    </a>
+  </p>
+
+  <p align="center">
+    <a href="#-features">Features</a> •
+    <a href="#%EF%B8%8F-tech-stack">Tech Stack</a> •
+    <a href="#-installation">Installation</a> •
+    <a href="#-configuration">Configuration</a> •
+    <a href="#-deployment">Deployment</a>
+  </p>
+
+  <br/>
+
+  <img src="preview.gif" alt="Portfolio Preview" style="border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);" />
 </div>
 
-## 🌟 Features
+<br/>
 
-### Portfolio
-- 🎨 Custom cursor and smooth animations
-- 🌓 Dark/Light theme switching
-- 📱 Responsive design across all devices
-- 🔄 Intersection Observer animations
-- 🖼️ Interactive project cards with live previews
-- 🚀 Performance optimized with lazy loading
-- 🤖 SEO optimized with Schema.org markup
-- 📱 Progressive Web App (PWA) support
+## ✨ Features
 
-### Blog System
-- 📝 Rich text editor (TinyMCE)
-- 🏷️ Tag-based filtering and search
-- 🔍 Full-text search functionality
-- 📊 Analytics dashboard
-- 🔐 Secure admin panel
-- 📈 View tracking
-- 🖼️ Cloudinary image integration
-- 🗺️ Dynamic sitemap generation
-- 📊 SEO-optimized blog posts
+<div align="center">
+
+| Portfolio | Blog System |
+|-----------|-------------|
+| 🎨 Custom cursor & smooth animations | 📝 Rich text editor (TinyMCE) |
+| 🌓 Dark/Light theme switching | 🏷️ Tag-based filtering & search |
+| 📱 Responsive design | 🔍 Full-text search functionality |
+| 🔄 Intersection Observer animations | 📊 Analytics dashboard |
+| 🖼️ Interactive project cards | 🔐 Secure admin panel |
+| 🚀 Performance optimized | 📈 View tracking |
+| 🤖 SEO optimized | 🖼️ Cloudinary integration |
+| 📱 PWA support | 🗺️ Dynamic sitemap |
+| 🎯 Dynamic previews | 📊 SEO optimization |
+| 🌐 Multi-language | 📱 Social sharing |
+| 📊 GitHub integration | 📈 Advanced analytics |
+| 🔄 Real-time updates | 🔍 Related posts |
+| 🎨 Custom themes | 📝 Draft system |
+
+</div>
 
 ## 🛠️ Tech Stack
 
-### Frontend
-- HTML5 & CSS3
-- Vanilla JavaScript
-- TinyMCE Editor
-- Chart.js
-- Font Awesome
-- Progressive Web App features
+<div align="center">
 
-### Backend
-- Node.js
-- Express.js
-- MongoDB
-- JWT Authentication
-- Multer & Cloudinary
-- SEO Optimization
+### 🎨 Frontend
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![TinyMCE](https://img.shields.io/badge/TinyMCE-18A303?style=for-the-badge&logo=tinymce&logoColor=white)
+![Chart.js](https://img.shields.io/badge/Chart.js-FF6384?style=for-the-badge&logo=chart.js&logoColor=white)
+
+### ⚙️ Backend
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
+![Redis](https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)
+
+### 🔧 DevOps & Tools
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Jest](https://img.shields.io/badge/Jest-C21325?style=for-the-badge&logo=jest&logoColor=white)
+
+</div>
 
 ## 📦 Installation
 
 ### Prerequisites
-- Node.js (v14 or higher)
+
+Before you begin, ensure you have the following installed:
+
+- Node.js (v14+)
 - MongoDB
 - Git
 - Cloudinary account
 
-### Step 1: Clone the Repository
+<details>
+<summary>📥 Step-by-Step Installation Guide</summary>
+
+### 1️⃣ Clone the Repository
 ```bash
 git clone https://github.com/ShalomObongo/portfolio.git
 cd portfolio
 ```
 
-### Step 2: Install Dependencies
+### 2️⃣ Install Dependencies
 ```bash
 npm install
 ```
 
-### Step 3: Environment Setup
-1. Copy the example environment file:
+### 3️⃣ Environment Setup
 ```bash
 cp .env.example .env
 ```
 
-2. Update the .env file with your credentials:
+Update `.env` with your credentials:
 ```env
 MONGODB_URI=your_mongodb_connection_string
 JWT_SECRET=your_secure_jwt_secret
@@ -87,145 +125,119 @@ CLOUDINARY_API_KEY=your_cloudinary_api_key
 CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 ```
 
-### Step 4: Initialize Admin Account
+### 4️⃣ Initialize Admin Account
 ```bash
 npm run init-admin
 ```
 
-### Step 5: Start the Server
+### 5️⃣ Start the Server
 ```bash
 npm start
 ```
 
-The application will be available at `http://localhost:3000`
+Visit `http://localhost:3000` 🚀
+
+</details>
 
 ## 📁 Project Structure
 
+<details>
+<summary>View Project Tree</summary>
+
 ```
 portfolio/
-├── admin/ # Admin dashboard
-│ ├── index.html # Admin interface
-│ ├── admin.js # Admin functionality
-│ └── admin.css # Admin styles
-├── api/ # Backend API routes
-│ ├── admin.js # Admin endpoints
-│ ├── posts.js # Blog endpoints
-│ └── auth.js # Authentication
-├── blog/ # Blog system
-│ ├── index.html # Blog listing
-│ ├── post.html # Post template
-│ ├── blog.js # Blog functionality
-│ ├── post.js # Post rendering
-│ └── blog.css # Blog styles
-├── public/ # Static assets
-│ ├── uploads/ # User uploads
-│ ├── ProfilePic.png # Profile image
-│ ├── logo.svg # Site logo
-│ └── icons/ # PWA icons
-├── models/ # MongoDB schemas
-│ ├── Post.js # Blog post model
-│ └── Admin.js # Admin model
-├── config/ # Configuration
-│ └── db.js # Database config
-├── scripts/ # Utility scripts
-│ └── init-admin.js # Admin setup
-├── .env # Environment vars
-├── server.js # Express server
-├── index.html # Main portfolio
-├── main.css # Global styles
-├── index.js # Main JavaScript
-└── site.webmanifest # PWA manifest
+├── 📁 admin/          # Admin dashboard
+├── 📁 api/            # Backend API routes
+├── 📁 blog/           # Blog system
+├── 📁 public/         # Static assets
+├── 📁 models/         # MongoDB schemas
+├── 📁 config/         # Configuration
+├── 📁 scripts/        # Utility scripts
+├── 📄 .env            # Environment vars
+├── 📄 server.js       # Express server
+├── 📄 index.html      # Main portfolio
+├── 📄 main.css        # Global styles
+└── 📄 index.js        # Main JavaScript
 ```
 
-## 🔧 Configuration
-
-### TinyMCE Editor
-1. Get your API key from [TinyMCE](https://www.tiny.cloud/)
-2. Update the script source in admin/index.html:
-```html
-<script src="https://cdn.tiny.cloud/1/YOUR_API_KEY/tinymce/6/tinymce.min.js"></script>
-```
-
-### MongoDB
-1. Create a free cluster at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
-2. Get your connection string
-3. Update MONGODB_URI in .env
-
-### Cloudinary
-1. Create an account at [Cloudinary](https://cloudinary.com/)
-2. Get your cloud name, API key, and API secret
-3. Update CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, and CLOUDINARY_API_SECRET in .env
+</details>
 
 ## 🔒 Security Features
 
-- JWT-based authentication
-- Password hashing with bcrypt
-- XSS protection
-- CSRF protection
-- Secure cookie usage
-- File upload validation
-- Rate limiting
+<div align="center">
 
-## 📱 Mobile Optimization
+| Authentication & Authorization | Data Protection | Infrastructure |
+|------------------------------|-----------------|----------------|
+| 🔑 JWT Authentication | 🛡️ XSS Protection | 🚫 Rate Limiting |
+| 🔒 Password Hashing | 🔰 CSRF Protection | 📡 CORS Config |
+| 👤 Role-Based Access | 🔍 Input Validation | 🛡️ Helmet.js |
+| 🍪 Secure Cookies | 📝 Sanitization | 🔄 Regular Audits |
 
-The site is fully responsive with:
-- Mobile-first design
-- Touch-friendly navigation
-- Optimized images
-- Adaptive layouts
-- Performance optimization
+</div>
 
 ## 🚀 Deployment
 
-### Option 1: Traditional Hosting
-1. Set up a Node.js environment
-2. Clone the repository
-3. Install dependencies
-4. Set up environment variables
-5. Start with PM2 or similar process manager
+<details>
+<summary>Deployment Options</summary>
 
-### Option 2: Docker
-Coming soon...
+### 🌐 Traditional Hosting
+1. Set up Node.js environment
+2. Clone and configure
+3. Start with PM2
+
+### ☁️ Cloud Platforms
+- AWS Elastic Beanstalk
+- Google Cloud Run
+- Heroku
+- Digital Ocean
+
+### 🐳 Docker (Coming Soon)
+Stay tuned for containerized deployment!
+
+</details>
 
 ## 🤝 Contributing
 
+We welcome contributions! Here's how:
+
 1. Fork the repository
-2. Create your feature branch
-```bash
-git checkout -b feature/AmazingFeature
-```
-3. Commit your changes
-```bash
-git commit -m 'Add some AmazingFeature'
-```
-4. Push to the branch
-```bash
-git push origin feature/AmazingFeature
-```
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
+
+## 🗺️ Roadmap
+
+- [ ] 🤖 AI-powered content suggestions
+- [ ] 📊 Advanced analytics dashboard
+- [ ] 🌐 Multi-language support
+- [ ] 👥 Real-time collaboration
+- [ ] 🔍 Enhanced SEO features
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
-
-- [TinyMCE](https://www.tiny.cloud/) for the rich text editor
-- [Cloudinary](https://cloudinary.com/) for image hosting
-- [Font Awesome](https://fontawesome.com/) for icons
-- [MongoDB](https://www.mongodb.com/) for database
-- [Express.js](https://expressjs.com/) for server framework
-
 ---
 
 <div align="center">
   <p>
-    <a href="https://shalomobongo.tech">Website</a> •
-    <a href="https://github.com/ShalomObongo">GitHub</a> •
-    <a href="https://www.linkedin.com/in/shalom-obongo">LinkedIn</a> •
-    <a href="mailto:shalomobongo@yahoo.com">Email</a>
+    <a href="https://shalomobongo.tech">
+      <img src="https://img.shields.io/badge/Website-64ffda?style=for-the-badge&logo=google-chrome&logoColor=white" alt="Website"/>
+    </a>
+    <a href="https://github.com/ShalomObongo">
+      <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/>
+    </a>
+    <a href="https://www.linkedin.com/in/shalom-obongo">
+      <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/>
+    </a>
+    <a href="mailto:shalomobongo@yahoo.com">
+      <img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email"/>
+    </a>
   </p>
   
-  Made with 🧠 by Shalom Obongo
+  <p>Made with 💻 by <strong>Shalom Obongo</strong></p>
+  
+  <img src="https://forthebadge.com/images/badges/built-with-love.svg" alt="Built with Love"/>
 </div>
 

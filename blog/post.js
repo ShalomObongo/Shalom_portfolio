@@ -104,6 +104,28 @@ class BlogPost {
         }
     }
 
+    getResponsiveImageUrl(url, width) {
+        console.log('Original URL:', url);
+        if (!url || !url.includes('cloudinary.com')) return url;
+        
+        try {
+            // Extract the version and file name
+            const matches = url.match(/\/v\d+\/(.+)$/);
+            if (!matches) return url;
+            
+            const fileName = matches[1];
+            const baseUrl = url.split('/upload/')[0];
+            
+            // Construct transformed URL
+            const transformedUrl = `${baseUrl}/upload/w_${width},c_scale/${fileName}`;
+            console.log('Transformed URL:', transformedUrl);
+            return transformedUrl;
+        } catch (error) {
+            console.error('Error transforming URL:', error);
+            return url;
+        }
+    }
+
     renderPost(post) {
         if (!post) {
             console.error('No post data to render');
@@ -211,10 +233,20 @@ class BlogPost {
         `).join('');
         document.getElementById('postTags').innerHTML = tagsHtml;
 
-        // Update featured image
+        // Update featured image with responsive Cloudinary URL
         const postImage = document.getElementById('postImage');
-        postImage.src = post.image;
-        postImage.alt = post.title;
+        if (post.image) {
+            const largeUrl = this.getResponsiveImageUrl(post.image, 1200);
+            const mediumUrl = this.getResponsiveImageUrl(post.image, 800);
+            
+            postImage.srcset = `${mediumUrl} 800w, ${largeUrl} 1200w`;
+            postImage.sizes = "(max-width: 800px) 800px, 1200px";
+            postImage.src = largeUrl;
+            postImage.alt = post.title;
+        } else {
+            postImage.src = '/public/default-post.jpg';
+            postImage.alt = 'Default post image';
+        }
 
         // Update post content
         document.getElementById('postContent').innerHTML = post.content;
@@ -234,15 +266,18 @@ class BlogPost {
     }
 
     renderRecentPosts(posts) {
-        const recentPostsContainer = document.getElementById('recentPosts');
-        recentPostsContainer.innerHTML = posts.slice(0, 4).map(post => `
-            <a href="/blog/${post.slug}" class="recent-post-item">
-                <img src="${post.image}" alt="${post.title}">
+        const recentPosts = document.getElementById('recentPosts');
+        recentPosts.innerHTML = posts.map(post => `
+            <div class="recent-post">
+                <img src="${this.getResponsiveImageUrl(post.image, 100)}" 
+                     alt="${post.title}"
+                     loading="lazy">
                 <div class="recent-post-content">
                     <h4>${post.title}</h4>
                     <span>${new Date(post.date).toLocaleDateString()}</span>
                 </div>
-            </a>
+                <a href="/blog/${post.slug}" class="post-link"></a>
+            </div>
         `).join('');
     }
 

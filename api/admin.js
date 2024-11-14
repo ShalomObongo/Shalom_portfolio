@@ -206,4 +206,19 @@ router.get('/admin/posts/:id', authMiddleware, async (req, res) => {
     }
 });
 
+// Add this route for TinyMCE image uploads
+router.post('/admin/upload', authMiddleware, upload.single('image'), async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ message: 'No image file uploaded' });
+        }
+        
+        // Cloudinary already processed the image, just return the URL
+        res.json({ url: req.file.path });
+    } catch (error) {
+        console.error('Image upload error:', error);
+        res.status(500).json({ message: 'Failed to upload image' });
+    }
+});
+
 module.exports = router; 

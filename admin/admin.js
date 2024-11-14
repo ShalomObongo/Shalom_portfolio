@@ -168,17 +168,33 @@ class AdminPanel {
         form.slug.value = post.slug;
         form.tags.value = post.tags.join(', ');
         form.excerpt.value = post.excerpt;
+        
+        // Set TinyMCE content
         tinymce.get('content').setContent(post.content);
 
-        // Show current image
+        // Show current image preview
         const imagePreview = form.querySelector('.image-preview');
-        imagePreview.innerHTML = `
-            <img src="${post.image}" alt="Current featured image">
-            <p class="image-note">Upload new image to change</p>
-        `;
+        if (post.image) {
+            const previewUrl = this.getResponsiveImageUrl(post.image, 400);
+            imagePreview.innerHTML = `
+                <img src="${previewUrl}" alt="Current featured image">
+                <p class="image-note">Upload new image to change</p>
+            `;
+        }
         
         // Make image upload optional for editing
         form.querySelector('#postImage').removeAttribute('required');
+    }
+
+    getResponsiveImageUrl(url, width) {
+        console.log('Original URL:', url);
+        if (!url || !url.includes('cloudinary.com')) return url;
+        
+        // Extract the base URL and file path
+        const [baseUrl, , imagePath] = url.split('/upload/');
+        const transformedUrl = `${baseUrl}/upload/w_${width},c_scale/${imagePath}`;
+        console.log('Transformed URL:', transformedUrl);
+        return transformedUrl;
     }
 
     resetForm() {
@@ -186,12 +202,14 @@ class AdminPanel {
         form.reset();
         tinymce.get('content').setContent('');
         form.querySelector('.image-preview').innerHTML = '';
-        form.querySelector('#postImage').setAttribute('required', 'required');
         this.currentEditId = null;
         
-        // Reset section title
+        // Reset form title and button
         document.querySelector('#new-post h3').textContent = 'Create New Post';
         document.querySelector('#new-post button[type="submit"]').textContent = 'Publish Post';
+        
+        // Make image required for new posts
+        form.querySelector('#postImage').setAttribute('required', '');
     }
 
     showLoginForm() {
@@ -340,6 +358,42 @@ class AdminPanel {
             script.onload = () => this.initTinyMCE();
         } catch (error) {
             console.error('Failed to load TinyMCE:', error);
+        }
+    }
+
+    async submitPost(event) {
+        event.preventDefault();
+        const form = event.target;
+        const formData = new FormData(form);
+        
+        // Get content from TinyMCE
+        formData.set('content', tinymce.get('content').getContent());
+        
+        try {
+            const url = this.currentEditId 
+                ? `/api/admin/posts/${this.currentEditId}`
+                : '/api/admin/posts';
+                
+            const method = this.currentEditId ? 'PUT' : 'POST';
+            
+            const response = await fetch(url, {
+                method: method,
+                credentials: 'include',
+                body: formData // FormData automatically sets correct Content-Type
+            });
+
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message || 'Failed to save post');
+            }
+
+            alert(this.currentEditId ? 'Post updated successfully!' : 'Post created successfully!');
+            this.resetForm();
+            this.loadPosts();
+            this.showSection('posts');
+        } catch (error) {
+            console.error('Failed to save post:', error);
+            alert(error.message);
         }
     }
 }

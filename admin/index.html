@@ -8,6 +8,42 @@
     <link rel="stylesheet" href="../main.css">
     <link rel="stylesheet" href="admin.css">
     <script id="tinymce-script"></script>
+    <script>
+    // Fetch TinyMCE API key and initialize
+    fetch('/api/config/editor')
+        .then(response => response.json())
+        .then(data => {
+            const script = document.getElementById('tinymce-script');
+            script.src = `https://cdn.tiny.cloud/1/${data.tinymceKey}/tinymce/6/tinymce.min.js`;
+            script.onload = () => {
+                tinymce.init({
+                    selector: '#content',
+                    plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+                    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+                    images_upload_handler: async function (blobInfo, progress) {
+                        const formData = new FormData();
+                        formData.append('image', blobInfo.blob(), blobInfo.filename());
+                        
+                        try {
+                            const response = await fetch('/api/admin/upload', {
+                                method: 'POST',
+                                credentials: 'include',
+                                body: formData
+                            });
+                            
+                            if (!response.ok) throw new Error('Upload failed');
+                            const data = await response.json();
+                            return data.url; // Return the Cloudinary URL
+                        } catch (err) {
+                            console.error('Upload failed:', err);
+                            throw new Error('Image upload failed');
+                        }
+                    }
+                });
+            };
+        })
+        .catch(error => console.error('Failed to load TinyMCE:', error));
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="admin-panel">

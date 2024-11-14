@@ -81,8 +81,11 @@
             
             <div class="post-featured-image">
                 <img id="postImage" alt="" 
-                     onerror="this.src='https://res.cloudinary.com/your-cloud-name/image/upload/v1/blog-posts/default'"
-                     loading="lazy">
+                     srcset=""
+                     sizes="(max-width: 800px) 800px, 1200px"
+                     onerror="this.src='/public/default-post.jpg'"
+                     loading="lazy"
+                     crossorigin="anonymous">
             </div>
             
             <div class="post-body" id="postContent"></div>

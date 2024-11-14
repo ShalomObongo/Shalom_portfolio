@@ -90,27 +90,45 @@ document.addEventListener('DOMContentLoaded', () => {
 class BlogSystem {
     constructor() {
         this.posts = [];
-        this.currentPage = 1;
-        this.postsPerPage = 9;
-        this.activeFilters = new Set();
-        
         this.init();
     }
 
     async init() {
-        await this.fetchPosts();
-        this.setupEventListeners();
-        this.renderPosts();
-        this.renderTags();
+        try {
+            await this.fetchPosts();
+            this.setupEventListeners();
+        } catch (error) {
+            console.error('Failed to initialize blog system:', error);
+        }
     }
 
     async fetchPosts() {
         try {
+            console.log('Fetching posts...');
             const response = await fetch('/api/posts');
-            this.posts = await response.json();
+            console.log('Response status:', response.status);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const posts = await response.json();
+            console.log('Fetched posts:', posts);
+            
+            if (!Array.isArray(posts)) {
+                throw new Error('Expected posts array, got: ' + typeof posts);
+            }
+            
+            this.posts = posts;
+            this.renderPosts(this.posts);
         } catch (error) {
             console.error('Error fetching posts:', error);
             this.posts = [];
+            // Show error message to user
+            const postsContainer = document.querySelector('.posts-grid');
+            if (postsContainer) {
+                postsContainer.innerHTML = '<div class="error-message">Failed to load blog posts. Please try again later.</div>';
+            }
         }
     }
 
@@ -157,39 +175,78 @@ class BlogSystem {
     }
 
     getResponsiveImageUrl(url, width) {
-        return url.replace('/upload/', `/upload/w_${width},c_scale/`);
+        if (!url || !url.includes('cloudinary.com')) return url;
+        
+        try {
+            // Extract the version and file name
+            const matches = url.match(/\/v\d+\/(.+)$/);
+            if (!matches) return url;
+            
+            const fileName = matches[1];
+            const baseUrl = url.split('/upload/')[0];
+            
+            // Construct transformed URL
+            return `${baseUrl}/upload/w_${width},c_scale/${fileName}`;
+        } catch (error) {
+            console.error('Error transforming URL:', error);
+            return url;
+        }
     }
 
-    renderPosts(posts = this.posts) {
-        const grid = document.querySelector('.posts-grid');
-        grid.innerHTML = posts.map(post => `
-            <article class="blog-post">
-                <div class="post-image">
+    renderPosts(posts) {
+        if (!Array.isArray(posts)) {
+            console.error('renderPosts received invalid posts:', posts);
+            return;
+        }
+
+        const postsContainer = document.querySelector('.posts-grid');
+        if (!postsContainer) {
+            console.error('Posts container not found');
+            return;
+        }
+
+        postsContainer.innerHTML = posts.map(post => `
+            <article class="blog-post-card">
+                <div class="post-image-container">
                     <img src="${this.getResponsiveImageUrl(post.image, 400)}" 
                          srcset="${this.getResponsiveImageUrl(post.image, 400)} 400w,
                                  ${this.getResponsiveImageUrl(post.image, 800)} 800w"
                          sizes="(max-width: 400px) 400px, 800px"
                          alt="${post.title}"
-                         loading="lazy">
+                         loading="lazy"
+                         onerror="this.src='/public/default-post.jpg'">
+                    <div class="post-meta-overlay">
+                        <span class="read-time">
+                            <i class="fas fa-clock"></i> ${post.readTime} min read
+                        </span>
+                    </div>
                 </div>
                 <div class="post-content">
-                    <div class="post-meta">
-                        <span>${new Date(post.date).toLocaleDateString()}</span>
-                        <span>${post.readTime} min read</span>
-                    </div>
-                    <h2>${post.title}</h2>
-                    <p>${post.excerpt}</p>
                     <div class="post-tags">
                         ${post.tags.map(tag => `
                             <span class="post-tag">${tag}</span>
                         `).join('')}
                     </div>
-                    <a href="/blog/${post.slug}" class="read-more">Read More</a>
+                    <h2 class="post-title">${post.title}</h2>
+                    <p class="post-excerpt">${post.excerpt}</p>
+                    <div class="post-footer">
+                        <div class="post-meta">
+                            <span class="post-date">
+                                <i class="fas fa-calendar"></i>
+                                ${new Date(post.date).toLocaleDateString('en-US', {
+                                    year: 'numeric',
+                                    month: 'short',
+                                    day: 'numeric'
+                                })}
+                            </span>
+                        </div>
+                        <a href="/blog/${post.slug}" class="read-more">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
                 </div>
             </article>
         `).join('');
-
-        this.renderPagination(posts.length);
     }
 
     renderTags() {
@@ -230,4 +287,7 @@ class BlogSystem {
     }
 }
 
-const blogSystem = new BlogSystem(); 
+// Initialize the blog system when the DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    window.blogSystem = new BlogSystem();
+}); 

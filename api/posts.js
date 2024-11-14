@@ -2,21 +2,9 @@ const express = require('express');
 const router = express.Router();
 const Post = require('../models/Post');
 const authMiddleware = require('../middleware/auth');
-const multer = require('multer');
-const path = require('path');
+const { upload } = require('../config/cloudinary');
 const Analytics = require('../models/Analytics');
-
-// Configure multer for file uploads
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'public/uploads')
-    },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + path.extname(file.originalname))
-    }
-});
-
-const upload = multer({ storage: storage });
+const cloudinary = require('cloudinary');
 
 // Get all posts
 router.get('/posts', async (req, res) => {
@@ -126,7 +114,13 @@ router.put('/admin/posts/:id', authMiddleware, upload.single('image'), async (re
 
         // Update image only if a new one is uploaded
         if (req.file) {
-            update.image = `/uploads/${req.file.filename}`;
+            // Delete old image from Cloudinary
+            const oldPost = await Post.findById(req.params.id);
+            if (oldPost && oldPost.image) {
+                const publicId = oldPost.image.split('/').pop().split('.')[0];
+                await cloudinary.uploader.destroy(`blog-posts/${publicId}`);
+            }
+            update.image = req.file.path; // Cloudinary URL
         }
 
         // Calculate read time if content is updated

@@ -17,7 +17,6 @@ app.use(cookieParser());
 
 // Static files for specific directories - move these BEFORE routes
 app.use('/public', express.static(path.join(__dirname, 'public')));
-app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 app.use('/blog', express.static(path.join(__dirname, 'blog')));
 app.use('/admin', express.static(path.join(__dirname, 'admin')));
 app.use(express.static(path.join(__dirname)));

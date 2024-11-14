@@ -124,11 +124,21 @@ window.addEventListener('resize', setupIframes);
 const createThemeToggle = () => {
     const themeToggle = document.querySelector('.theme-toggle');
     
+    // Check if there's a saved theme preference
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+        document.body.classList.add('light-theme');
+        themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    }
+    
     themeToggle.addEventListener('click', () => {
         document.body.classList.toggle('light-theme');
-        themeToggle.innerHTML = document.body.classList.contains('light-theme') 
+        const isLight = document.body.classList.contains('light-theme');
+        themeToggle.innerHTML = isLight 
             ? '<i class="fas fa-sun"></i>' 
             : '<i class="fas fa-moon"></i>';
+        // Save theme preference
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
     });
 };
 
@@ -192,11 +202,18 @@ backToTop.addEventListener('click', () => {
 });
 
 // Add page loader functionality
-window.addEventListener('load', () => {
+document.addEventListener('DOMContentLoaded', () => {
     const loader = document.querySelector('.page-loader');
-    setTimeout(() => {
+    
+    // Start fading out immediately if coming from blog
+    if (document.referrer.includes('/blog')) {
         loader.classList.add('fade-out');
-    }, 500);
+    } else {
+        // Normal load behavior for other cases
+        setTimeout(() => {
+            loader.classList.add('fade-out');
+        }, 300);
+    }
 });
 
 // Enhanced contact form with floating labels
@@ -385,4 +402,3 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
-

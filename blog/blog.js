@@ -90,6 +90,8 @@ document.addEventListener('DOMContentLoaded', () => {
 class BlogSystem {
     constructor() {
         this.posts = [];
+        this.currentView = 'grid';
+        this.activeFilters = new Set();
         this.init();
     }
 
@@ -241,12 +243,23 @@ class BlogSystem {
                             </span>
                         </div>
                         <a href="/blog/${post.slug}" class="read-more">
-                            Read More <i class="fas fa-arrow-right"></i>
+                            Read More
                         </a>
                     </div>
                 </div>
             </article>
         `).join('');
+
+        // Add click handlers to newly rendered cards
+        document.querySelectorAll('.blog-post-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                // Don't trigger if clicking the read more link
+                if (!e.target.closest('.read-more')) {
+                    const link = card.querySelector('.read-more');
+                    if (link) window.location.href = link.href;
+                }
+            });
+        });
     }
 
     renderTags() {
@@ -285,9 +298,55 @@ class BlogSystem {
         this.currentPage = page;
         this.renderPosts();
     }
+
+    setupViewToggles() {
+        const viewToggles = document.querySelectorAll('.view-toggle');
+        viewToggles.forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                viewToggles.forEach(t => t.classList.remove('active'));
+                toggle.classList.add('active');
+                
+                this.currentView = toggle.classList.contains('grid-view') ? 'grid' : 'list';
+                this.updatePostsView();
+            });
+        });
+    }
+
+    updatePostsView() {
+        const postsContainer = document.querySelector('.posts-grid');
+        postsContainer.className = `posts-${this.currentView}`;
+        this.renderPosts(this.filteredPosts);
+    }
 }
 
 // Initialize the blog system when the DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     window.blogSystem = new BlogSystem();
+});
+
+// Add this to handle navigation
+document.querySelectorAll('a[href="/"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const transition = document.createElement('div');
+        transition.className = 'page-transition';
+        document.body.appendChild(transition);
+        
+        // Trigger transition
+        requestAnimationFrame(() => {
+            transition.classList.add('active');
+            
+            // Preload home page resources
+            const preloadLink = document.createElement('link');
+            preloadLink.rel = 'preload';
+            preloadLink.href = '/';
+            preloadLink.as = 'document';
+            document.head.appendChild(preloadLink);
+            
+            // Navigate after transition
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 300);
+        });
+    });
 }); 

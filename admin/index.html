@@ -75,30 +75,113 @@
 
     <!-- Dashboard -->
     <div class="admin-dashboard hidden" id="dashboard">
+        <!-- Updated Sidebar -->
         <nav class="admin-nav">
-            <div class="admin-header">
-                <div class="admin-brand">
-                    <img src="/public/logo.svg" alt="SO" class="dashboard-logo">
-                    <h2>Dashboard</h2>
-                </div>
-                <button id="logoutBtn" class="logout-btn">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </button>
+            <div class="admin-brand">
+                <img src="/public/logo.svg" alt="SO" class="dashboard-logo">
+                <h2>Dashboard</h2>
             </div>
             <ul class="admin-menu">
-                <li data-section="posts" class="active">
-                    <i class="fas fa-newspaper"></i> Posts
+                <li data-section="overview" class="active">
+                    <a>
+                        <i class="fas fa-home"></i>
+                        <span>Overview</span>
+                    </a>
+                </li>
+                <li data-section="posts">
+                    <a>
+                        <i class="fas fa-newspaper"></i>
+                        <span>Posts</span>
+                    </a>
                 </li>
                 <li data-section="new-post">
-                    <i class="fas fa-plus-circle"></i> New Post
+                    <a>
+                        <i class="fas fa-plus-circle"></i>
+                        <span>New Post</span>
+                    </a>
                 </li>
                 <li data-section="analytics">
-                    <i class="fas fa-chart-line"></i> Analytics
+                    <a>
+                        <i class="fas fa-chart-line"></i>
+                        <span>Analytics</span>
+                    </a>
                 </li>
             </ul>
+            <button id="logoutBtn" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
         </nav>
 
+        <!-- Updated Main Content -->
         <main class="admin-content">
+            <!-- Overview Section -->
+            <section id="overview" class="admin-section">
+                <div class="section-header">
+                    <h3><i class="fas fa-home"></i> Overview</h3>
+                </div>
+                
+                <div class="overview-grid">
+                    <!-- Quick Stats -->
+                    <div class="analytics-grid">
+                        <div class="analytics-card">
+                            <div class="analytics-icon">
+                                <i class="fas fa-newspaper"></i>
+                            </div>
+                            <div class="analytics-info">
+                                <h4>Total Posts</h4>
+                                <p id="overviewTotalPosts">0</p>
+                            </div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="analytics-icon">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <div class="analytics-info">
+                                <h4>Total Views</h4>
+                                <p id="overviewTotalViews">0</p>
+                            </div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="analytics-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="analytics-info">
+                                <h4>Latest Post</h4>
+                                <p id="overviewLatestPost">None</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Posts -->
+                    <div class="overview-section">
+                        <h4><i class="fas fa-history"></i> Recent Posts</h4>
+                        <div class="recent-posts-list" id="recentPosts">
+                            <!-- Will be populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="overview-section quick-actions">
+                        <h4><i class="fas fa-bolt"></i> Quick Actions</h4>
+                        <div class="quick-actions-grid">
+                            <button onclick="document.querySelector('[data-section=new-post]').click()" class="quick-action-btn">
+                                <i class="fas fa-plus-circle"></i>
+                                <span>New Post</span>
+                            </button>
+                            <button onclick="document.querySelector('[data-section=posts]').click()" class="quick-action-btn">
+                                <i class="fas fa-edit"></i>
+                                <span>Manage Posts</span>
+                            </button>
+                            <button onclick="document.querySelector('[data-section=analytics]').click()" class="quick-action-btn">
+                                <i class="fas fa-chart-line"></i>
+                                <span>View Analytics</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- Posts Section -->
             <section id="posts" class="admin-section">
                 <div class="section-header">
@@ -223,5 +306,6 @@
     </div>
 
     <script src="admin.js"></script>
+    <!-- <script src="../index.js"></script> -->
 </body>
 </html> 

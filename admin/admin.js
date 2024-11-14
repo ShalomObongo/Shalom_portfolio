@@ -76,20 +76,34 @@ class AdminPanel {
     }
 
     handleNavigation(e) {
-        if (e.target.tagName === 'LI') {
-            const section = e.target.dataset.section;
+        const menuItem = e.target.closest('li');
+        if (menuItem) {
+            const section = menuItem.dataset.section;
             this.showSection(section);
             
             document.querySelectorAll('.admin-menu li').forEach(li => {
                 li.classList.remove('active');
             });
-            e.target.classList.add('active');
+            menuItem.classList.add('active');
         }
     }
 
     async handlePostSubmit(e) {
         e.preventDefault();
-        const formData = new FormData(e.target);
+        
+        // Get TinyMCE content first
+        const content = tinymce.get('content').getContent();
+        if (!content) {
+            alert('Content is required');
+            return;
+        }
+
+        const form = e.target;
+        const formData = new FormData(form);
+        
+        // Set the content in formData
+        formData.set('content', content);
+        
         const isEdit = !!this.currentEditId;
         
         try {
@@ -99,24 +113,34 @@ class AdminPanel {
                 
             const method = isEdit ? 'PUT' : 'POST';
             
+            // Validate required fields before submission
+            const title = formData.get('title');
+            const excerpt = formData.get('excerpt');
+            const image = formData.get('image');
+            
+            if (!title || !excerpt || (!isEdit && !image)) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
             const response = await fetch(url, {
                 method: method,
                 body: formData,
                 credentials: 'include'
             });
 
-            if (response.ok) {
-                alert(isEdit ? 'Post updated successfully!' : 'Post created successfully!');
-                this.resetForm();
-                this.loadPosts();
-                this.showSection('posts');
-            } else {
+            if (!response.ok) {
                 const data = await response.json();
-                alert(data.message);
+                throw new Error(data.message || 'Failed to save post');
             }
+
+            alert(isEdit ? 'Post updated successfully!' : 'Post created successfully!');
+            this.resetForm();
+            this.loadPosts();
+            this.showSection('posts');
         } catch (error) {
             console.error('Failed to save post:', error);
-            alert('Failed to save post. Please try again.');
+            alert(error.message);
         }
     }
 
@@ -172,29 +196,21 @@ class AdminPanel {
         // Set TinyMCE content
         tinymce.get('content').setContent(post.content);
 
-        // Show current image preview
+        // Show current image preview with proper URL handling
         const imagePreview = form.querySelector('.image-preview');
         if (post.image) {
-            const previewUrl = this.getResponsiveImageUrl(post.image, 400);
+            // Use the full Cloudinary URL
             imagePreview.innerHTML = `
-                <img src="${previewUrl}" alt="Current featured image">
+                <img src="${post.image}" alt="Current featured image">
                 <p class="image-note">Upload new image to change</p>
             `;
+            
+            // Make image upload optional for editing
+            form.querySelector('#postImage').removeAttribute('required');
+        } else {
+            imagePreview.innerHTML = '';
+            form.querySelector('#postImage').setAttribute('required', '');
         }
-        
-        // Make image upload optional for editing
-        form.querySelector('#postImage').removeAttribute('required');
-    }
-
-    getResponsiveImageUrl(url, width) {
-        console.log('Original URL:', url);
-        if (!url || !url.includes('cloudinary.com')) return url;
-        
-        // Extract the base URL and file path
-        const [baseUrl, , imagePath] = url.split('/upload/');
-        const transformedUrl = `${baseUrl}/upload/w_${width},c_scale/${imagePath}`;
-        console.log('Transformed URL:', transformedUrl);
-        return transformedUrl;
     }
 
     resetForm() {
@@ -227,6 +243,13 @@ class AdminPanel {
             s.classList.add('hidden');
         });
         document.getElementById(section).classList.remove('hidden');
+
+        // Load section-specific data
+        if (section === 'overview') {
+            this.loadOverview();
+        } else if (section === 'analytics') {
+            this.loadAnalytics();
+        }
     }
 
     async loadPosts() {
@@ -275,7 +298,15 @@ class AdminPanel {
             plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
             toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
             skin: 'oxide-dark',
-            content_css: 'dark'
+            content_css: 'dark',
+            setup: function(editor) {
+                editor.on('change', function() {
+                    editor.save(); // This triggers the change event on the textarea
+                });
+            },
+            init_instance_callback: function(editor) {
+                editor.setContent(editor.getContent()); // Ensure content is initialized
+            }
         });
     }
 
@@ -395,6 +426,52 @@ class AdminPanel {
             console.error('Failed to save post:', error);
             alert(error.message);
         }
+    }
+
+    async loadOverview() {
+        try {
+            const [postsResponse, analyticsResponse] = await Promise.all([
+                fetch('/api/admin/posts', { credentials: 'include' }),
+                fetch('/api/admin/analytics', { credentials: 'include' })
+            ]);
+
+            const posts = await postsResponse.json();
+            const analytics = await analyticsResponse.json();
+
+            this.renderOverview(posts, analytics);
+        } catch (error) {
+            console.error('Failed to load overview data:', error);
+        }
+    }
+
+    renderOverview(posts, analytics) {
+        // Update quick stats
+        document.getElementById('overviewTotalPosts').textContent = posts.length;
+        document.getElementById('overviewTotalViews').textContent = analytics.overview.totalViews.toLocaleString();
+        
+        // Get and format latest post date
+        const latestPost = posts[0];
+        document.getElementById('overviewLatestPost').textContent = 
+            latestPost ? new Date(latestPost.date).toLocaleDateString() : 'No posts yet';
+
+        // Render recent posts (last 5)
+        const recentPostsList = document.getElementById('recentPosts');
+        recentPostsList.innerHTML = posts.slice(0, 5).map(post => `
+            <div class="recent-post-item">
+                <div class="recent-post-info">
+                    <h5>${post.title}</h5>
+                    <span class="post-date">${new Date(post.date).toLocaleDateString()}</span>
+                </div>
+                <div class="action-buttons">
+                    <button onclick="adminPanel.editPost('${post._id}')" class="edit-btn">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <a href="/blog/${post.slug}" target="_blank" class="view-btn">
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            </div>
+        `).join('');
     }
 }
 

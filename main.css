@@ -16,15 +16,6 @@
     --secondary-rgb: 10, 25, 47;
 }
 
-/* Update the light theme colors */
-.light-theme {
-    --primary: #ffffff;
-    --secondary: #0a192f;
-    --text: #4a5568;
-    --heading: #1a202c;
-    --background: #f7fafc;
-}
-
 /* Add these styles for better light theme handling */
 .light-theme nav {
     background: rgba(247, 250, 252, 0.95);
@@ -1151,4 +1142,21 @@ footer {
         background: rgba(var(--secondary-rgb), 0.1);
         color: var(--secondary);
     }
+}
+
+/* Add to your existing CSS */
+.page-transition {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--background);
+    z-index: 9998;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.page-transition.active {
+    transform: translateY(0);
 }

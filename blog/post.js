@@ -10,6 +10,8 @@ class BlogPost {
         try {
             this.init();
             this.initCursor(); // Add cursor initialization
+            this.initProgressBar();
+            this.initShareButtons();
         } catch (error) {
             console.error('Error in BlogPost constructor:', error);
         }
@@ -46,6 +48,18 @@ class BlogPost {
             // Hide cursor on touch devices
             cursor.style.display = 'none';
         }
+    }
+
+    initProgressBar() {
+        const progressBar = document.querySelector('.progress-bar');
+        if (!progressBar) return;
+
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + '%';
+        });
     }
 
     async init() {
@@ -98,6 +112,7 @@ class BlogPost {
             
             this.renderPost(post);
             this.updateMetaTags(post);
+            await this.loadAdjacentPosts(post.date);
         } catch (error) {
             console.error('Error loading post:', error);
             throw error;
@@ -268,7 +283,7 @@ class BlogPost {
     renderRecentPosts(posts) {
         const recentPosts = document.getElementById('recentPosts');
         recentPosts.innerHTML = posts.map(post => `
-            <div class="recent-post">
+            <a href="/blog/${post.slug}" class="recent-post">
                 <img src="${this.getResponsiveImageUrl(post.image, 100)}" 
                      alt="${post.title}"
                      loading="lazy">
@@ -276,8 +291,7 @@ class BlogPost {
                     <h4>${post.title}</h4>
                     <span>${new Date(post.date).toLocaleDateString()}</span>
                 </div>
-                <a href="/blog/${post.slug}" class="post-link"></a>
-            </div>
+            </a>
         `).join('');
     }
 
@@ -301,6 +315,76 @@ class BlogPost {
             }
             tag.setAttribute('content', content);
         });
+    }
+
+    initShareButtons() {
+        const shareButtons = document.querySelectorAll('.share-button');
+        shareButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const platform = button.dataset.platform;
+                if (platform === 'copy') {
+                    this.copyLink();
+                } else {
+                    this.sharePost(platform);
+                }
+            });
+        });
+    }
+
+    sharePost(platform) {
+        const url = encodeURIComponent(window.location.href);
+        const title = encodeURIComponent(document.title);
+        
+        const shareUrls = {
+            twitter: `https://twitter.com/intent/tweet?url=${url}&text=${title}`,
+            linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${url}`,
+            facebook: `https://www.facebook.com/sharer/sharer.php?u=${url}`
+        };
+        
+        if (shareUrls[platform]) {
+            window.open(shareUrls[platform], '_blank', 'width=600,height=400');
+        }
+    }
+
+    async copyLink() {
+        try {
+            await navigator.clipboard.writeText(window.location.href);
+            const button = document.querySelector('.share-button[data-platform="copy"]');
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            button.style.backgroundColor = 'rgba(100, 255, 218, 0.2)';
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.style.backgroundColor = '';
+            }, 2000);
+        } catch (err) {
+            console.error('Failed to copy link:', err);
+        }
+    }
+
+    async loadAdjacentPosts(currentDate) {
+        try {
+            const response = await fetch(`/api/posts/adjacent?date=${currentDate}`);
+            const { prev, next } = await response.json();
+            
+            const prevPost = document.querySelector('.prev-post');
+            const nextPost = document.querySelector('.next-post');
+            
+            if (prev) {
+                prevPost.style.display = 'block';
+                prevPost.href = `/blog/${prev.slug}`;
+                prevPost.querySelector('h4').textContent = prev.title;
+            }
+            
+            if (next) {
+                nextPost.style.display = 'block';
+                nextPost.href = `/blog/${next.slug}`;
+                nextPost.querySelector('h4').textContent = next.title;
+            }
+        } catch (error) {
+            console.error('Error loading adjacent posts:', error);
+        }
     }
 }
 

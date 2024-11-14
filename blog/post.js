@@ -150,14 +150,16 @@ class BlogPost {
         // Update page title with keywords
         document.title = `${post.title} - Blog | Shalom Obongo`;
         
-        // Update meta tags
+        // Update meta tags with enhanced social preview
         const metaTags = {
             'description': post.metaDescription,
             'keywords': post.keywords.join(', '),
             'author': post.author,
             'og:title': post.title,
             'og:description': post.metaDescription,
-            'og:image': post.image,
+            'og:image': this.getResponsiveImageUrl(post.image, 1200),
+            'og:image:width': '1200',
+            'og:image:height': '630',
             'og:url': `https://shalomobongo.tech/blog/${post.slug}`,
             'og:type': 'article',
             'article:published_time': post.date,
@@ -167,20 +169,31 @@ class BlogPost {
             'twitter:card': 'summary_large_image',
             'twitter:title': post.title,
             'twitter:description': post.metaDescription,
-            'twitter:image': post.image
+            'twitter:image': this.getResponsiveImageUrl(post.image, 1200),
+            'twitter:creator': '@ShalomObongo'
         };
 
-        // Update schema.org JSON-LD
+        // Update schema.org JSON-LD with enhanced data
         const schemaData = {
             "@context": "https://schema.org",
             "@type": "BlogPosting",
             "headline": post.title,
-            "image": post.image,
+            "image": {
+                "@type": "ImageObject",
+                "url": this.getResponsiveImageUrl(post.image, 1200),
+                "width": 1200,
+                "height": 630
+            },
             "datePublished": post.date,
             "dateModified": post.lastModified,
             "author": {
                 "@type": "Person",
-                "name": post.author
+                "name": post.author,
+                "url": "https://shalomobongo.tech",
+                "image": {
+                    "@type": "ImageObject",
+                    "url": "https://shalomobongo.tech/public/ProfilePic.png"
+                }
             },
             "publisher": {
                 "@type": "Organization",
@@ -214,6 +227,18 @@ class BlogPost {
                 }
             }
         };
+
+        // Update meta tags
+        Object.entries(metaTags).forEach(([name, content]) => {
+            let tag = document.querySelector(`meta[property="${name}"]`) || 
+                     document.querySelector(`meta[name="${name}"]`);
+            if (!tag) {
+                tag = document.createElement('meta');
+                tag.setAttribute(name.includes(':') ? 'property' : 'name', name);
+                document.head.appendChild(tag);
+            }
+            tag.setAttribute('content', content);
+        });
 
         // Update JSON-LD script
         let scriptTag = document.querySelector('script[type="application/ld+json"]');

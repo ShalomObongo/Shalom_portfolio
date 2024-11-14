@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const connectDB = require('./config/db');
 const adminRoutes = require('./api/admin');
 const postRoutes = require('./api/posts');
+const https = require('https');
 
 const app = express();
 
@@ -199,6 +200,19 @@ app.use((req, res, next) => {
 
 // Trust proxy for Render
 app.set('trust proxy', 1);
+
+const PING_INTERVAL = 14 * 60 * 1000; // 14 minutes
+const pingURL = 'https://shalomobongo.tech';
+
+setInterval(() => {
+  https.get(pingURL, (resp) => {
+    if (resp.statusCode === 200) {
+      console.log('Keep-alive ping successful');
+    }
+  }).on('error', (err) => {
+    console.error('Keep-alive ping failed:', err);
+  });
+}, PING_INTERVAL);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

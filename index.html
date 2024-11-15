@@ -7,6 +7,11 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Shalom Obongo | Full Stack Developer</title>
+    <link rel="preload" href="/public/ProfilePic.png" as="image" type="image/png" fetchpriority="high" crossorigin="anonymous">
+    <link rel="preload" href="/main.css" as="style">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="stylesheet" href="main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -41,11 +46,6 @@
     <meta name="language" content="English">
     <link rel="canonical" href="https://shalomobongo.tech">
 
-    <link rel="preload" href="/public/ProfilePic.png" as="image">
-    <link rel="preload" href="/main.css" as="style">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
 </head>
 <body>
     <div class="cursor"></div>
@@ -83,7 +83,7 @@
     <section id="home" class="hero">
         <div class="hero-content">
             <div class="profile-container">
-                <img src="/public/ProfilePic.png" alt="Shalom Obongo - Full Stack Developer & Technology Consultant" class="profile-pic" loading="lazy" width="200" height="200">
+                <img src="/public/ProfilePic.png" alt="Shalom Obongo - Full Stack Developer & Technology Consultant" class="profile-pic" width="200" height="200" fetchpriority="high" decoding="async">
                 <div class="profile-backdrop" aria-hidden="true"></div>
             </div>
             <h1 class="glitch-text">Shalom Obongo</h1>

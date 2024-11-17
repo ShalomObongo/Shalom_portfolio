@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Admin Dashboard | Shalom Obongo">
+    <title>Admin Panel | Shalom Obongo</title>
+    <link rel="stylesheet" href="../main.css">
+    <link rel="stylesheet" href="admin.css">
+    <script id="tinymce-script"></script>
+    <script>
+    // Fetch TinyMCE API key and initialize
+    fetch('/api/config/editor')
+        .then(response => response.json())
+        .then(data => {
+            const script = document.getElementById('tinymce-script');
+            script.src = `https://cdn.tiny.cloud/1/${data.tinymceKey}/tinymce/6/tinymce.min.js`;
+            script.onload = () => {
+                tinymce.init({
+                    selector: '#content',
+                    plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+                    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+                    images_upload_handler: async function (blobInfo, progress) {
+                        const formData = new FormData();
+                        formData.append('image', blobInfo.blob(), blobInfo.filename());
+                        
+                        try {
+                            const response = await fetch('/api/admin/upload', {
+                                method: 'POST',
+                                credentials: 'include',
+                                body: formData
+                            });
+                            
+                            if (!response.ok) throw new Error('Upload failed');
+                            const data = await response.json();
+                            return data.url; // Return the Cloudinary URL
+                        } catch (err) {
+                            console.error('Upload failed:', err);
+                            throw new Error('Image upload failed');
+                        }
+                    }
+                });
+            };
+        })
+        .catch(error => console.error('Failed to load TinyMCE:', error));
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="admin-panel">
+    <!-- Login Form -->
+    <div class="admin-login" id="loginForm">
+        <div class="login-container">
+            <img src="/public/logo.svg" alt="SO" class="login-logo">
+            <h2>Welcome Back</h2>
+            <p class="login-subtitle">Sign in to manage your blog</p>
+            <form id="adminLoginForm">
+                <div class="form-group">
+                    <div class="input-icon">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" placeholder="Email" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" placeholder="Password" required>
+                    </div>
+                </div>
+                <button type="submit" class="login-btn">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="admin-dashboard hidden" id="dashboard">
+        <!-- Updated Sidebar -->
+        <nav class="admin-nav">
+            <div class="admin-brand">
+                <img src="/public/logo.svg" alt="SO" class="dashboard-logo">
+                <h2>Dashboard</h2>
+            </div>
+            <ul class="admin-menu">
+                <li data-section="overview" class="active">
+                    <a>
+                        <i class="fas fa-home"></i>
+                        <span>Overview</span>
+                    </a>
+                </li>
+                <li data-section="posts">
+                    <a>
+                        <i class="fas fa-newspaper"></i>
+                        <span>Posts</span>
+                    </a>
+                </li>
+                <li data-section="new-post">
+                    <a>
+                        <i class="fas fa-plus-circle"></i>
+                        <span>New Post</span>
+                    </a>
+                </li>
+                <li data-section="analytics">
+                    <a>
+                        <i class="fas fa-chart-line"></i>
+                        <span>Analytics</span>
+                    </a>
+                </li>
+            </ul>
+            <button id="logoutBtn" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+        </nav>
+
+        <!-- Updated Main Content -->
+        <main class="admin-content">
+            <!-- Overview Section -->
+            <section id="overview" class="admin-section">
+                <div class="section-header">
+                    <h3><i class="fas fa-home"></i> Overview</h3>
+                </div>
+                
+                <div class="overview-grid">
+                    <!-- Quick Stats -->
+                    <div class="analytics-grid">
+                        <div class="analytics-card">
+                            <div class="analytics-icon">
+                                <i class="fas fa-newspaper"></i>
+                            </div>
+                            <div class="analytics-info">
+                                <h4>Total Posts</h4>
+                                <p id="overviewTotalPosts">0</p>
+                            </div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="analytics-icon">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <div class="analytics-info">
+                                <h4>Total Views</h4>
+                                <p id="overviewTotalViews">0</p>
+                            </div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="analytics-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="analytics-info">
+                                <h4>Latest Post</h4>
+                                <p id="overviewLatestPost">None</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Posts -->
+                    <div class="overview-section">
+                        <h4><i class="fas fa-history"></i> Recent Posts</h4>
+                        <div class="recent-posts-list" id="recentPosts">
+                            <!-- Will be populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="overview-section quick-actions">
+                        <h4><i class="fas fa-bolt"></i> Quick Actions</h4>
+                        <div class="quick-actions-grid">
+                            <button onclick="document.querySelector('[data-section=new-post]').click()" class="quick-action-btn">
+                                <i class="fas fa-plus-circle"></i>
+                                <span>New Post</span>
+                            </button>
+                            <button onclick="document.querySelector('[data-section=posts]').click()" class="quick-action-btn">
+                                <i class="fas fa-edit"></i>
+                                <span>Manage Posts</span>
+                            </button>
+                            <button onclick="document.querySelector('[data-section=analytics]').click()" class="quick-action-btn">
+                                <i class="fas fa-chart-line"></i>
+                                <span>View Analytics</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Posts Section -->
+            <section id="posts" class="admin-section">
+                <div class="section-header">
+                    <h3><i class="fas fa-newspaper"></i> Manage Posts</h3>
+                    <button onclick="document.querySelector('[data-section=new-post]').click()" class="new-post-btn">
+                        <i class="fas fa-plus"></i> New Post
+                    </button>
+                </div>
+                <div class="posts-table-wrapper">
+                    <div class="posts-table">
+                        <!-- Posts will be dynamically populated -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- New Post Section -->
+            <section id="new-post" class="admin-section hidden">
+                <div class="section-header">
+                    <h3><i class="fas fa-plus-circle"></i> Create New Post</h3>
+                </div>
+                <form id="newPostForm" class="post-form">
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label for="title">Title</label>
+                            <input type="text" name="title" id="title" placeholder="Enter post title" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="slug">URL Slug</label>
+                            <input type="text" name="slug" id="slug" placeholder="post-url-slug">
+                            <small>Leave empty to generate from title</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tags">Tags</label>
+                            <input type="text" name="tags" id="tags" placeholder="tech, web, development" required>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="excerpt">Excerpt</label>
+                            <textarea name="excerpt" id="excerpt" placeholder="Brief description of the post" required></textarea>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="metaDescription">Meta Description (for SEO)</label>
+                            <textarea name="metaDescription" id="metaDescription" placeholder="A compelling description that will appear in search results and social media shares" maxlength="160" required></textarea>
+                            <small>Maximum 160 characters for optimal SEO. This will appear in search results and social media previews.</small>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="keywords">Keywords (for SEO)</label>
+                            <input type="text" name="keywords" id="keywords" placeholder="web development, javascript, react" required>
+                            <small>Comma-separated keywords to help with search engine optimization</small>
+                        </div>
+
+                        <div class="form-group image-upload-group">
+                            <label for="postImage">Featured Image</label>
+                            <div class="image-upload-area">
+                                <input type="file" id="postImage" name="image" accept="image/*" required>
+                                <div class="upload-placeholder">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p>Drag & drop or click to upload</p>
+                                </div>
+                                <div class="image-preview"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="content">Content</label>
+                            <textarea id="content" name="content"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="cancel-btn" onclick="document.querySelector('[data-section=posts]').click()">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-paper-plane"></i> Publish Post
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Analytics Section -->
+            <section id="analytics" class="admin-section hidden">
+                <div class="section-header">
+                    <h3><i class="fas fa-chart-line"></i> Analytics</h3>
+                </div>
+                
+                <div class="analytics-grid">
+                    <div class="analytics-card">
+                        <div class="analytics-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <div class="analytics-info">
+                            <h4>Total Views</h4>
+                            <p id="totalViews">0</p>
+                        </div>
+                    </div>
+                    <div class="analytics-card">
+                        <div class="analytics-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="analytics-info">
+                            <h4>Total Posts</h4>
+                            <p id="totalPosts">0</p>
+                        </div>
+                    </div>
+                    <div class="analytics-card">
+                        <div class="analytics-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="analytics-info">
+                            <h4>Unique Visitors</h4>
+                            <p id="uniqueVisitors">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="analytics-charts">
+                    <div class="chart-container">
+                        <h4>Views Over Time</h4>
+                        <canvas id="viewsChart"></canvas>
+                    </div>
+                    
+                    <div class="top-posts">
+                        <h4>Top Posts</h4>
+                        <div id="topPosts"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="admin.js"></script>
+    <!-- <script src="../index.js"></script> -->
+</body>
+</html>

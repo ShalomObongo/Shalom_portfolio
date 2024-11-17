@@ -122,19 +122,24 @@ window.addEventListener('resize', setupIframes);
 // Add after the existing code
 // Theme toggle functionality
 const createThemeToggle = () => {
-    const nav = document.querySelector('nav');
-    const themeToggle = document.createElement('button');
-    themeToggle.classList.add('theme-toggle');
-    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+    const themeToggle = document.querySelector('.theme-toggle');
+    
+    // Check if there's a saved theme preference
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+        document.body.classList.add('light-theme');
+        themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    }
     
     themeToggle.addEventListener('click', () => {
         document.body.classList.toggle('light-theme');
-        themeToggle.innerHTML = document.body.classList.contains('light-theme') 
+        const isLight = document.body.classList.contains('light-theme');
+        themeToggle.innerHTML = isLight 
             ? '<i class="fas fa-sun"></i>' 
             : '<i class="fas fa-moon"></i>';
+        // Save theme preference
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
     });
-    
-    nav.appendChild(themeToggle);
 };
 
 createThemeToggle();
@@ -152,21 +157,30 @@ window.addEventListener('scroll', () => {
 
 // Add mobile navigation functionality
 const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
-const mobileNavMenu = document.querySelector('.mobile-nav-menu');
+const mobileDropdown = document.querySelector('.mobile-dropdown');
 
-mobileNavToggle.addEventListener('click', () => {
-    mobileNavMenu.classList.toggle('active');
-    mobileNavToggle.innerHTML = mobileNavMenu.classList.contains('active')
+mobileNavToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    mobileDropdown.classList.toggle('active');
+    mobileNavToggle.innerHTML = mobileDropdown.classList.contains('active')
         ? '<i class="fas fa-times"></i>'
         : '<i class="fas fa-bars"></i>';
 });
 
-// Close mobile menu when clicking outside
+// Close dropdown when clicking outside
 document.addEventListener('click', (e) => {
-    if (!e.target.closest('.mobile-nav') && mobileNavMenu.classList.contains('active')) {
-        mobileNavMenu.classList.remove('active');
+    if (!e.target.closest('.nav-right') && mobileDropdown.classList.contains('active')) {
+        mobileDropdown.classList.remove('active');
         mobileNavToggle.innerHTML = '<i class="fas fa-bars"></i>';
     }
+});
+
+// Close dropdown when clicking a link
+document.querySelectorAll('.mobile-dropdown a').forEach(link => {
+    link.addEventListener('click', () => {
+        mobileDropdown.classList.remove('active');
+        mobileNavToggle.innerHTML = '<i class="fas fa-bars"></i>';
+    });
 });
 
 // Add Back to Top functionality
@@ -188,11 +202,18 @@ backToTop.addEventListener('click', () => {
 });
 
 // Add page loader functionality
-window.addEventListener('load', () => {
+document.addEventListener('DOMContentLoaded', () => {
     const loader = document.querySelector('.page-loader');
-    setTimeout(() => {
+    
+    // Start fading out immediately if coming from blog
+    if (document.referrer.includes('/blog')) {
         loader.classList.add('fade-out');
-    }, 500);
+    } else {
+        // Normal load behavior for other cases
+        setTimeout(() => {
+            loader.classList.add('fade-out');
+        }, 300);
+    }
 });
 
 // Enhanced contact form with floating labels
@@ -381,4 +402,3 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
-

@@ -1,155 +1,248 @@
-
 <div align="center">
-  <img src="/public/logo.svg" alt="Portfolio Logo" width="120" height="120" style="border-radius: 50%">
+  <img src="/public/logo.svg" alt="Portfolio Logo" width="150" height="150" style="border-radius: 50%; box-shadow: 0 0 20px rgba(100, 255, 218, 0.3);">
 
-  # Shalom Obongo | Portfolio
+  <h1>✨ Shalom Obongo | Portfolio & Blog ✨</h1>
   
-  🚀 A Next-Generation Developer Portfolio showcasing the intersection of design and technology
-  
-  [![Live Demo](https://img.shields.io/badge/Live-Demo-64ffda?style=for-the-badge)](https://shalomobongo.tech)
-  [![License](https://img.shields.io/badge/License-MIT-0a192f?style=for-the-badge)](LICENSE)
+  <p align="center">
+    <strong>A modern, full-stack portfolio and blog platform crafted with Node.js and MongoDB</strong>
+  </p>
+
+  <p align="center">
+    <a href="https://shalomobongo.tech" target="_blank">
+      <img src="https://img.shields.io/badge/LIVE-DEMO-64ffda?style=for-the-badge&logoColor=white" alt="Live Demo" />
+    </a>
+    <a href="LICENSE">
+      <img src="https://img.shields.io/badge/LICENSE-MIT-0a192f?style=for-the-badge" alt="License" />
+    </a>
+    <a href="https://nodejs.org">
+      <img src="https://img.shields.io/badge/NODE-18.x-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js" />
+    </a>
+    <a href="https://www.mongodb.com">
+      <img src="https://img.shields.io/badge/MONGODB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB" />
+    </a>
+  </p>
+
+  <p align="center">
+    <a href="#-features">Features</a> •
+    <a href="#%EF%B8%8F-tech-stack">Tech Stack</a> •
+    <a href="#-installation">Installation</a> •
+    <a href="#-configuration">Configuration</a> •
+    <a href="#-deployment">Deployment</a>
+  </p>
+
+  <br/>
+
+  <img src="preview.gif" alt="Portfolio Preview" style="border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);" />
 </div>
+
+<br/>
 
 ## ✨ Features
 
-- 🎨 Stunning minimalist design with custom cursor
-- 🌓 Dynamic theme switching (Dark/Light modes)
-- 📱 Fully responsive across all devices
-- 🔄 Smooth page transitions and animations
-- 🖼️ Interactive project previews with hover effects
-- 🚀 Optimized performance with lazy loading
-- 🤖 SEO optimized with Schema.org markup
-- 📊 Progressive Web App (PWA) support
+<div align="center">
+
+| Portfolio | Blog System |
+|-----------|-------------|
+| 🎨 Custom cursor & smooth animations | 📝 Rich text editor (TinyMCE) |
+| 🌓 Dark/Light theme switching | 🏷️ Tag-based filtering & search |
+| 📱 Responsive design | 🔍 Full-text search functionality |
+| 🔄 Intersection Observer animations | 📊 Analytics dashboard |
+| 🖼️ Interactive project cards | 🔐 Secure admin panel |
+| 🚀 Performance optimized | 📈 View tracking |
+| 🎯 SEO optimized | 🔍 Meta tag debugging (dev mode) | Cloudinary Integration
+| 📱 PWA support | 🗺️ Dynamic sitemap |
+| 🎯 Dynamic previews | 📊 SEO optimization |
+| 🌐 Multi-language | 📱 Social sharing |
+| 📊 GitHub integration | 📈 Advanced analytics |
+| 🔄 Real-time updates | 🔍 Related posts |
+| 🎨 Custom themes | 📝 Draft system |
+
+</div>
+
+### Development Features
+
+- 🔍 **Meta Tag Debugging**: Press `Shift + M` in development mode to view all meta tags, helping you optimize for social media sharing
+- 🎯 **SEO Tools**: Built-in tools for managing meta descriptions, Open Graph tags, and Twitter Cards
+- 📱 **Social Preview**: Debug panel shows how your content will appear when shared on social media
 
 ## 🛠️ Tech Stack
 
-- HTML5 & CSS3 with modern features
-- Vanilla JavaScript with advanced animations
-- Custom cursor tracking system
-- Intersection Observer for scroll animations
-- Schema.org JSON-LD for rich snippets
-- Mobile-first responsive design
-- Progressive Web App capabilities
+<div align="center">
 
-## 🎯 Key Components
+### 🎨 Frontend
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![TinyMCE](https://img.shields.io/badge/TinyMCE-18A303?style=for-the-badge&logo=tinymce&logoColor=white)
+![Chart.js](https://img.shields.io/badge/Chart.js-FF6384?style=for-the-badge&logo=chart.js&logoColor=white)
 
-### Dynamic Navigation
-```javascript:index.js
-startLine: 153
-endLine: 170
-```
+### ⚙️ Backend
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
+![Redis](https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)
 
-### Project Showcase
-The portfolio features an innovative project display system with live previews and smooth hover effects:
-```css:main.css
-startLine: 260
-endLine: 320
-```
+### 🔧 DevOps & Tools
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Jest](https://img.shields.io/badge/Jest-C21325?style=for-the-badge&logo=jest&logoColor=white)
 
-### Performance Optimization
-- Lazy loading images and iframes
-- Preloading critical assets
-- Optimized font loading
-- Minified assets
-
-## 📱 Progressive Web App
-
-The website is built as a PWA, offering:
-- Offline functionality
-- App-like experience
-- Home screen installation
-- Fast loading times
-
-```javascript:site.webmanifest
-startLine: 1
-endLine: 24
-```
-
-## 🎨 Design Philosophy
-
-The design follows a minimalist yet futuristic approach with:
-- Custom animated cursor
-- Smooth scrolling effects
-- Parallax animations
-- Glass-morphism elements
-- Dynamic color themes
-
-## 🚀 Performance Metrics
-
-- Lighthouse Score: 98/100
-- First Contentful Paint: < 1s
-- Time to Interactive: < 2s
-- Perfect SEO score
-- Full accessibility compliance
+</div>
 
 ## 📦 Installation
 
-1. Clone the repository
-```bash
-git clone https://github.com/YourUsername/portfolio.git
-```
+### Prerequisites
 
-2. Navigate to project directory
+Before you begin, ensure you have the following installed:
+
+- Node.js (v14+)
+- MongoDB
+- Git
+- Cloudinary account
+
+<details>
+<summary>📥 Step-by-Step Installation Guide</summary>
+
+### 1️⃣ Clone the Repository
 ```bash
+git clone https://github.com/ShalomObongo/portfolio.git
 cd portfolio
 ```
 
-3. Open `index.html` in your browser or use a local server
+### 2️⃣ Install Dependencies
 ```bash
-python -m http.server 8000
+npm install
 ```
 
-## 🔧 Development
-
-The project uses a modular structure:
-- `index.html` - Core structure
-- `main.css` - Styling and animations
-- `index.js` - Interactions and functionality
-
-## 🌐 SEO Optimization
-
-Implements comprehensive SEO best practices:
-```html:index.html
-startLine: 14
-endLine: 42
+### 3️⃣ Environment Setup
+```bash
+cp .env.example .env
 ```
 
-## 📱 Mobile Responsiveness
-
-Features a custom mobile navigation system:
-```css:main.css
-startLine: 792
-endLine: 871
+Update `.env` with your credentials:
+```env
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_secure_jwt_secret
+ADMIN_EMAIL=your_admin_email
+ADMIN_PASSWORD=your_secure_password
+TINYMCE_API_KEY=your_tiny_mce_api_key
+CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 ```
+
+### 4️⃣ Initialize Admin Account
+```bash
+npm run init-admin
+```
+
+### 5️⃣ Start the Server
+```bash
+npm start
+```
+
+Visit `http://localhost:3000` 🚀
+
+</details>
+
+## 📁 Project Structure
+
+<details>
+<summary>View Project Tree</summary>
+
+```
+portfolio/
+├── 📁 admin/          # Admin dashboard
+├── 📁 api/            # Backend API routes
+├── 📁 blog/           # Blog system
+├── 📁 public/         # Static assets
+├── 📁 models/         # MongoDB schemas
+├── 📁 config/         # Configuration
+├── 📁 scripts/        # Utility scripts
+├── 📄 .env            # Environment vars
+├── 📄 server.js       # Express server
+├── 📄 index.html      # Main portfolio
+├── 📄 main.css        # Global styles
+└── 📄 index.js        # Main JavaScript
+```
+
+</details>
+
+## 🔒 Security Features
+
+<div align="center">
+
+| Authentication & Authorization | Data Protection | Infrastructure |
+|------------------------------|-----------------|----------------|
+| 🔑 JWT Authentication | 🛡️ XSS Protection | 🚫 Rate Limiting |
+| 🔒 Password Hashing | 🔰 CSRF Protection | 📡 CORS Config |
+| 👤 Role-Based Access | 🔍 Input Validation | 🛡️ Helmet.js |
+| 🍪 Secure Cookies | 📝 Sanitization | 🔄 Regular Audits |
+
+</div>
+
+## 🚀 Deployment
+
+<details>
+<summary>Deployment Options</summary>
+
+### 🌐 Traditional Hosting
+1. Set up Node.js environment
+2. Clone and configure
+3. Start with PM2
+
+### ☁️ Cloud Platforms
+- AWS Elastic Beanstalk
+- Google Cloud Run
+- Heroku
+- Digital Ocean
+
+### 🐳 Docker (Coming Soon)
+Stay tuned for containerized deployment!
+
+</details>
 
 ## 🤝 Contributing
 
+We welcome contributions! Here's how:
+
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
+
+## 🗺️ Roadmap
+
+- [ ] 🤖 AI-powered content suggestions
+- [ ] 📊 Advanced analytics dashboard
+- [ ] 🌐 Multi-language support
+- [ ] 👥 Real-time collaboration
+- [ ] 🔍 Enhanced SEO features
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
-
-- Font Awesome for icons
-- Google Fonts for typography
-- Intersection Observer API
-- Modern CSS features
-
 ---
 
 <div align="center">
   <p>
-    <a href="https://github.com/ShalomObongo">GitHub</a> •
-    <a href="https://www.linkedin.com/in/shalom-obongo">LinkedIn</a> •
-    <a href="mailto:shalomobongo@yahoo.com">Email</a>
+    <a href="https://shalomobongo.tech">
+      <img src="https://img.shields.io/badge/Website-64ffda?style=for-the-badge&logo=google-chrome&logoColor=white" alt="Website"/>
+    </a>
+    <a href="https://github.com/ShalomObongo">
+      <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/>
+    </a>
+    <a href="https://www.linkedin.com/in/shalom-obongo">
+      <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/>
+    </a>
+    <a href="mailto:shalomobongo@yahoo.com">
+      <img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email"/>
+    </a>
   </p>
   
-  Made with ❤️ by Shalom Obongo
+  <p>Made with 💻 by <strong>Shalom Obongo</strong></p>
+  
+  <img src="https://forthebadge.com/images/badges/built-with-love.svg" alt="Built with Love"/>
 </div>
-

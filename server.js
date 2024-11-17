@@ -6,6 +6,7 @@ const connectDB = require('./config/db');
 const adminRoutes = require('./api/admin');
 const postRoutes = require('./api/posts');
 const https = require('https');
+const fs = require('fs');
 
 const app = express();
 
@@ -34,9 +35,39 @@ app.use('/api', adminRoutes);
 app.use('/api', postRoutes);
 
 // Blog routes
-app.get('/blog/:slug', (req, res) => {
-    console.log('Serving blog post page for slug:', req.params.slug);
-    res.sendFile(path.join(__dirname, 'blog', 'post.html'));
+app.get('/blog/:slug', async (req, res) => {
+    try {
+        console.log('Serving blog post page for slug:', req.params.slug);
+        const Post = require('./models/Post');
+        const post = await Post.findOne({ slug: req.params.slug });
+        
+        if (!post) {
+            return res.redirect('/blog'); // Redirect to blog index if post not found
+        }
+
+        // Read the post.html template
+        let html = await fs.promises.readFile(path.join(__dirname, 'blog', 'post.html'), 'utf8');
+
+        // Replace placeholders with actual content
+        const replacements = {
+            '{{title}}': post.title,
+            '{{description}}': post.excerpt || post.metaDescription || `Read ${post.title} by Shalom Obongo`,
+            '{{image}}': post.image,
+            '{{url}}': `https://shalomobongo.tech/blog/${post.slug}`,
+            '{{publishedTime}}': post.date.toISOString(),
+            '{{modifiedTime}}': post.lastModified ? post.lastModified.toISOString() : post.date.toISOString(),
+            '{{tags}}': post.tags.join(', ')
+        };
+
+        Object.entries(replacements).forEach(([placeholder, value]) => {
+            html = html.replace(new RegExp(placeholder, 'g'), value || '');
+        });
+
+        res.send(html);
+    } catch (error) {
+        console.error('Error serving blog post:', error);
+        res.redirect('/blog');
+    }
 });
 
 app.get('/blog', (req, res) => {

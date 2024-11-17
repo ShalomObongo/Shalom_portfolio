@@ -211,6 +211,59 @@ body.admin-panel .cursor {
     font-weight: 500;
 }
 
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #ccd6f6;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid rgba(100, 255, 218, 0.1);
+    border-radius: 4px;
+    background: #1e2d4a;
+    color: #ccd6f6;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.form-group small {
+    display: block;
+    margin-top: 0.5rem;
+    color: #8892b0;
+    font-size: 0.8rem;
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Meta fields specific styles */
+.form-group textarea[name="metaDescription"] {
+    min-height: 80px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.form-group input[name="keywords"] {
+    font-size: 0.9rem;
+}
+
+/* Character count indicator for meta description */
+.form-group textarea[name="metaDescription"]:focus + small::after {
+    content: attr(data-count) " / 160";
+    float: right;
+    color: #64ffda;
+}
+
 /* Updated Button Styles */
 .action-buttons {
     display: flex;

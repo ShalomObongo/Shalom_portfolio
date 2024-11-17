@@ -34,6 +34,10 @@ const postSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
+    lastModified: {
+        type: Date,
+        default: Date.now
+    },
     readTime: {
         type: Number,
         required: true
@@ -55,10 +59,6 @@ const postSchema = new mongoose.Schema({
         type: String,
         trim: true
     }],
-    lastModified: {
-        type: Date,
-        default: Date.now
-    },
     canonicalUrl: {
         type: String,
         required: true

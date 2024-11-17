@@ -99,6 +99,9 @@ router.put('/admin/posts/:id', authMiddleware, upload.single('image'), async (re
     try {
         const update = { ...req.body };
         
+        // Always update lastModified when post is updated
+        update.lastModified = new Date();
+
         // Clean the slug
         if (update.slug) {
             update.slug = update.slug.trim().toLowerCase()

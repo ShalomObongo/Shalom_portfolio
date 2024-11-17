@@ -192,6 +192,8 @@ class AdminPanel {
         form.slug.value = post.slug;
         form.tags.value = post.tags.join(', ');
         form.excerpt.value = post.excerpt;
+        form.metaDescription.value = post.metaDescription;
+        form.keywords.value = post.keywords.join(', ');
         
         // Set TinyMCE content
         tinymce.get('content').setContent(post.content);
@@ -216,11 +218,15 @@ class AdminPanel {
     resetForm() {
         const form = document.getElementById('newPostForm');
         form.reset();
-        tinymce.get('content').setContent('');
         form.querySelector('.image-preview').innerHTML = '';
+        tinymce.get('content').setContent('');
         this.currentEditId = null;
         
-        // Reset form title and button
+        // Reset meta fields
+        form.metaDescription.value = '';
+        form.keywords.value = '';
+        
+        // Update section title back to Create New Post
         document.querySelector('#new-post h3').textContent = 'Create New Post';
         document.querySelector('#new-post button[type="submit"]').textContent = 'Publish Post';
         

@@ -49,7 +49,7 @@
 | 🔄 Intersection Observer animations | 📊 Analytics dashboard |
 | 🖼️ Interactive project cards | 🔐 Secure admin panel |
 | 🚀 Performance optimized | 📈 View tracking |
-| 🤖 SEO optimized | 🖼️ Cloudinary integration |
+| 🎯 SEO optimized | 🔍 Meta tag debugging (dev mode) | Cloudinary Integration
 | 📱 PWA support | 🗺️ Dynamic sitemap |
 | 🎯 Dynamic previews | 📊 SEO optimization |
 | 🌐 Multi-language | 📱 Social sharing |
@@ -58,6 +58,12 @@
 | 🎨 Custom themes | 📝 Draft system |
 
 </div>
+
+### Development Features
+
+- 🔍 **Meta Tag Debugging**: Press `Shift + M` in development mode to view all meta tags, helping you optimize for social media sharing
+- 🎯 **SEO Tools**: Built-in tools for managing meta descriptions, Open Graph tags, and Twitter Cards
+- 📱 **Social Preview**: Debug panel shows how your content will appear when shared on social media
 
 ## 🛠️ Tech Stack
 
@@ -240,4 +246,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
   
   <img src="https://forthebadge.com/images/badges/built-with-love.svg" alt="Built with Love"/>
 </div>
-

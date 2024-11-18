@@ -105,7 +105,7 @@ Before you begin, ensure you have the following installed:
 
 ### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/ShalomObongo/portfolio.git
+git clone https://github.com/ShalomObongo/Shalom_portfolio
 cd portfolio
 ```
 
@@ -196,6 +196,7 @@ portfolio/
 - Google Cloud Run
 - Heroku
 - Digital Ocean
+- Render
 
 ### 🐳 Docker (Coming Soon)
 Stay tuned for containerized deployment!
@@ -222,7 +223,7 @@ We welcome contributions! Here's how:
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the Apache License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
@@ -242,7 +243,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
     </a>
   </p>
   
-  <p>Made with 💻 by <strong>Shalom Obongo</strong></p>
+  <p>Made by <strong>Shalom Obongo</strong></p>
   
   <img src="https://forthebadge.com/images/badges/built-with-love.svg" alt="Built with Love"/>
 </div>

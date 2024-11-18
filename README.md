@@ -245,5 +245,5 @@ This project is licensed under the Apache License - see the [LICENSE](LICENSE) f
   
   <p>Made by <strong>Shalom Obongo</strong></p>
   
-  <img src="https://forthebadge.com/images/badges/built-with-love.svg" alt="Built with Love"/>
+  <img src="[https://forthebadge.com/images/badges/built-with-love.svg](https://img.shields.io/badge/Built_with_Futuristic_Tech-64ffda?style=for-the-badge&logo=rocket)" alt="Built with Love"/>
 </div>

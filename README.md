@@ -12,7 +12,7 @@
       <img src="https://img.shields.io/badge/LIVE-DEMO-64ffda?style=for-the-badge&logoColor=white" alt="Live Demo" />
     </a>
     <a href="LICENSE">
-      <img src="https://img.shields.io/badge/LICENSE-MIT-0a192f?style=for-the-badge" alt="License" />
+      <img src="https://img.shields.io/badge/LICENSE-Apache-0a192f?style=for-the-badge" alt="License" />
     </a>
     <a href="https://nodejs.org">
       <img src="https://img.shields.io/badge/NODE-18.x-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js" />

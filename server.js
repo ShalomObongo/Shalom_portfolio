@@ -21,6 +21,13 @@ app.use(cookieParser());
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/blog', express.static(path.join(__dirname, 'blog')));
 app.use('/admin', express.static(path.join(__dirname, 'admin')));
+app.use('/components', express.static(path.join(__dirname, 'components'), {
+    setHeaders: (res, path) => {
+        if (path.endsWith('.js')) {
+            res.setHeader('Content-Type', 'application/javascript');
+        }
+    }
+}));
 app.use(express.static(path.join(__dirname)));
 
 // Add this after your middleware setup and before routes
@@ -33,6 +40,15 @@ app.get('/api/config/editor', (req, res) => {
 // API routes
 app.use('/api', adminRoutes);
 app.use('/api', postRoutes);
+
+// Payment routes
+app.use('/api/initialize-payment', require('./api/initialize-payment'));
+app.use('/api/verify-payment', require('./api/verify-payment'));
+
+// Buy Me a Coffee route
+app.get('/buy-me-coffee', (req, res) => {
+    res.sendFile(path.join(__dirname, 'buy-me-coffee.html'));
+});
 
 // Blog routes
 app.get('/blog/:slug', async (req, res) => {

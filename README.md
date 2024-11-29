@@ -56,6 +56,7 @@
 | 📊 GitHub integration | 📈 Advanced analytics |
 | 🔄 Real-time updates | 🔍 Related posts |
 | 🎨 Custom themes | 📝 Draft system |
+| ☕ Buy Me Coffee support | 💳 Secure payment integration |
 
 </div>
 
@@ -64,6 +65,7 @@
 - 🔍 **Meta Tag Debugging**: Press `Shift + M` in development mode to view all meta tags, helping you optimize for social media sharing
 - 🎯 **SEO Tools**: Built-in tools for managing meta descriptions, Open Graph tags, and Twitter Cards
 - 📱 **Social Preview**: Debug panel shows how your content will appear when shared on social media
+- ☕ **Buy Me Coffee**: Integrated payment system for receiving support from visitors with secure payment processing
 
 ## 🛠️ Tech Stack
 

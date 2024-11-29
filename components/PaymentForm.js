@@ -118,7 +118,7 @@ class PaymentForm {
             Make Payment
           </h2>
           <p class="text-gray-500 dark:text-gray-400">
-            Secure payment processing with Paystack
+            Secure payment processing with Paystack (Supports Mpesa and Card payments)
           </p>
         </div>
 

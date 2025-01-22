@@ -318,7 +318,6 @@ h2 {
     transform-origin: top center;
     position: absolute;
     top: 0;
-    transition: transform 4s ease;
 }
 
 .project-content {
@@ -699,11 +698,6 @@ footer {
     transform-origin: top center;
     position: absolute;
     top: 0;
-    transition: transform 4s ease;
-}
-
-.project-card:hover .preview-container iframe {
-    transform: scale(0.25) translateY(-75%);
 }
 
 /* Ensure project cards maintain consistent height */

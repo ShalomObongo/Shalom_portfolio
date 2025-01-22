@@ -96,12 +96,11 @@ window.addEventListener('scroll', () => {
     profilePic.style.transform = `translateY(${scrolled * 0.1}px)`;
 });
 
-// Revert to the original iframe setup
+// Simplify the iframe setup function to only handle centering
 function setupIframes() {
     const iframes = document.querySelectorAll('.preview-container iframe');
     
     iframes.forEach(iframe => {
-        // Wait for iframe to load
         iframe.onload = function() {
             const scale = 0.25;
             const containerWidth = iframe.parentElement.offsetWidth;

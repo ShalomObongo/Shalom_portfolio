@@ -404,11 +404,16 @@
                 <!-- Honeypot -->
                 <input type="text" name="_honey" style="display:none">
                 
-                <!-- Disable Captcha -->
-                <input type="hidden" name="_captcha" value="false">
+                <!-- Enable reCAPTCHA by removing the disable captcha field -->
                 
                 <!-- Ajax Response -->
                 <input type="hidden" name="_next" value="https://shalomobongo.tech">
+                
+                <!-- Add URL for better tracking -->
+                <input type="hidden" name="_url" value="https://shalomobongo.tech">
+                
+                <!-- Add spam blacklist -->
+                <input type="hidden" name="_blacklist" value="casino,gambling,porn,sex,loan,pharmacy">
                 
                 <input type="text" name="name" placeholder="Name" required>
                 <input type="email" name="email" placeholder="Email" required>
@@ -548,5 +553,6 @@
       ]
     }
     </script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </body>
 </html>

@@ -512,6 +512,13 @@ class AdminPanel {
 
     async handlePrintReport() {
         try {
+            // Check if analytics data is available
+            const totalViews = document.getElementById('totalViews');
+            if (!totalViews || totalViews.textContent === '0') {
+                alert('Please load analytics data first by clicking on the Analytics section.');
+                return;
+            }
+            
             // Generate the printable report
             await this.generatePrintableReport();
             

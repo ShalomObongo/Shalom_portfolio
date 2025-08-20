@@ -15,6 +15,7 @@ class AdminPanel {
         document.getElementById('logoutBtn').addEventListener('click', this.handleLogout.bind(this));
         document.querySelector('.admin-menu').addEventListener('click', this.handleNavigation.bind(this));
         document.getElementById('newPostForm').addEventListener('submit', this.handlePostSubmit.bind(this));
+        document.getElementById('printReportBtn').addEventListener('click', this.handlePrintReport.bind(this));
     }
 
     async checkAuth() {
@@ -348,10 +349,18 @@ class AdminPanel {
 
         // Render views chart
         this.renderViewsChart(data.viewsOverTime);
+        
+        // Store chart data for print table
+        this.storeChartDataForPrint(data.viewsOverTime);
     }
 
     renderViewsChart(viewsData) {
         const ctx = document.getElementById('viewsChart').getContext('2d');
+        
+        // Destroy existing chart if it exists
+        if (this.viewsChart) {
+            this.viewsChart.destroy();
+        }
         
         // Format data for Chart.js
         const labels = viewsData.map(item => 
@@ -359,7 +368,7 @@ class AdminPanel {
         );
         const views = viewsData.map(item => item.totalViews);
 
-        new Chart(ctx, {
+        this.viewsChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels,
@@ -367,7 +376,9 @@ class AdminPanel {
                     label: 'Views',
                     data: views,
                     borderColor: '#64ffda',
-                    tension: 0.4
+                    backgroundColor: 'rgba(100, 255, 218, 0.1)',
+                    tension: 0.4,
+                    fill: true
                 }]
             },
             options: {
@@ -376,6 +387,25 @@ class AdminPanel {
                 plugins: {
                     legend: {
                         display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(100, 255, 218, 0.1)'
+                        },
+                        ticks: {
+                            color: '#8892b0'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(100, 255, 218, 0.1)'
+                        },
+                        ticks: {
+                            color: '#8892b0'
+                        }
                     }
                 }
             }
@@ -478,6 +508,111 @@ class AdminPanel {
                 </div>
             </div>
         `).join('');
+    }
+
+    async handlePrintReport() {
+        try {
+            // Generate the printable report
+            await this.generatePrintableReport();
+            
+            // Print the report
+            window.print();
+        } catch (error) {
+            console.error('Failed to generate print report:', error);
+            alert('Failed to generate print report. Please try again.');
+        }
+    }
+
+    async generatePrintableReport() {
+        // Set the report date
+        document.getElementById('reportDate').textContent = new Date().toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        // Copy current analytics data to print version
+        const totalViews = document.getElementById('totalViews').textContent;
+        const totalPosts = document.getElementById('totalPosts').textContent;
+        const uniqueVisitors = document.getElementById('uniqueVisitors').textContent;
+
+        document.getElementById('printTotalViews').textContent = totalViews;
+        document.getElementById('printTotalPosts').textContent = totalPosts;
+        document.getElementById('printUniqueVisitors').textContent = uniqueVisitors;
+
+        // Convert chart to image
+        await this.convertChartToImage();
+
+        // Copy top posts data to print version
+        this.generatePrintTopPosts();
+
+        // Show the printable report
+        document.getElementById('printableReport').classList.remove('hidden');
+    }
+
+    async convertChartToImage() {
+        const chartCanvas = document.getElementById('viewsChart');
+        if (chartCanvas) {
+            try {
+                // Convert canvas to image
+                const chartImage = chartCanvas.toDataURL('image/png');
+                const imgElement = document.createElement('img');
+                imgElement.src = chartImage;
+                imgElement.alt = 'Views Over Time Chart';
+                
+                // Clear and add the image to print container
+                const printChartContainer = document.getElementById('printChartContainer');
+                printChartContainer.innerHTML = '';
+                printChartContainer.appendChild(imgElement);
+            } catch (error) {
+                console.error('Failed to convert chart to image:', error);
+                // If chart conversion fails, show a message
+                document.getElementById('printChartContainer').innerHTML = '<p>Chart could not be rendered for printing.</p>';
+            }
+        }
+    }
+
+    generatePrintTopPosts() {
+        const topPostsContainer = document.getElementById('topPosts');
+        const printTopPostsContainer = document.getElementById('printTopPosts');
+        
+        if (topPostsContainer && printTopPostsContainer) {
+            const topPostItems = topPostsContainer.querySelectorAll('.top-post-item');
+            let printHTML = '';
+            
+            topPostItems.forEach((item, index) => {
+                const title = item.querySelector('h4').textContent;
+                const stats = item.querySelector('.post-stats');
+                const viewsText = stats ? stats.textContent.trim() : 'No stats available';
+                
+                printHTML += `
+                    <div class="print-top-post-item">
+                        <h4>${index + 1}. ${title}</h4>
+                        <div class="print-post-stats">${viewsText}</div>
+                    </div>
+                `;
+            });
+            
+            printTopPostsContainer.innerHTML = printHTML;
+        }
+    }
+
+    // Store chart data for print table generation
+    storeChartDataForPrint(viewsData) {
+        if (!viewsData || !Array.isArray(viewsData)) return;
+        
+        const tableBody = document.getElementById('chartDataTableBody');
+        if (!tableBody) return;
+        
+        tableBody.innerHTML = viewsData.map(item => {
+            const date = `${item._id.year}-${String(item._id.month).padStart(2, '0')}-${String(item._id.day).padStart(2, '0')}`;
+            return `
+                <tr>
+                    <td>${date}</td>
+                    <td>${item.totalViews.toLocaleString()}</td>
+                </tr>
+            `;
+        }).join('');
     }
 }
 
